@@ -1,6 +1,7 @@
 package com.pravdinm.synthese.service;
 
 import com.pravdinm.synthese.model.user.Client;
+import com.pravdinm.synthese.model.user.Manager;
 import com.pravdinm.synthese.repository.ClientRepository;
 import com.pravdinm.synthese.repository.ManagerRepository;
 import org.springframework.dao.DuplicateKeyException;
@@ -30,5 +31,13 @@ public class AuthService {
             exception.printStackTrace();
         }
         return optionalClient;
+    }
+
+    public Optional<Client> loginClient(String username, String password) {
+        return clientRepository.findByUsernameAndPassword(username, password);
+    }
+
+    public Optional<Manager> loginManager(String username, String password) {
+        return managerRepository.findByUsernameAndPassword(username, password);
     }
 }
