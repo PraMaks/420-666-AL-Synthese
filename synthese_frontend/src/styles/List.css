@@ -1,0 +1,173 @@
+.cont_principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  color: white;
+}
+
+.cont_list_cv {
+  margin-bottom: 5%;
+}
+
+.cont_list_centrar {
+  padding: 2%;
+  background-image: linear-gradient(-226deg, #ffffff 8%, #eef3f5 100%);
+  border-radius: 8px;
+  transition: all 0.5s;
+  min-width: 50%;
+  opacity: 0.9;
+}
+
+.cont_title_form {
+  width: 100%;
+  box-shadow: none !important;
+  color: black;
+}
+
+.cont_list {
+  padding-right: 45px;
+}
+
+.cont_list > p {
+  color: red;
+}
+
+.jumbotron .btn {
+  color: #ffffff;
+  padding: 5px !important;
+  font-size: 12px !important;
+  margin-left: 20px;
+}
+.jumbotron label {
+  font-size: 12px;
+}
+
+.img-user {
+  height: 120px;
+  width: 120px;
+  margin-right: 20px;
+}
+
+.list_node {
+  background: #babdcc;
+  padding: 15px 30px;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 25px;
+  align-items: center;
+  height: fit-content;
+  transition: color rotateY(15deg) ease-in-out;
+  transition-duration: 3s;
+  box-shadow: 0px 2px 20px 2px #babdcc;
+  transition: 0.5s;
+}
+
+.list_node:hover {
+  background: #2e578c;
+  box-shadow: 0px 2px 20px 2px #d1d1d1;
+  border-radius: 10px;
+  padding: 15px 30px;
+  border: none;
+  color: black;
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 25px;
+  align-items: center;
+  height: fit-content;
+  transition-duration: 3s;
+  box-shadow: 0px 2px 20px 2px #babdcc;
+  transition: 0.5s;
+  transform: rotatey(15deg);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(to right, #fff 20%, #fff 40%, #7accff 50%, #7accff 55%, #fff 70%, #fff 100%);
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+.list_node_internship {
+  background: #babdcc;
+  box-shadow: 0px 2px 20px 2px #d1d1d1;
+  padding: 15px 30px;
+  border-radius: 3px;
+  color: white;
+  margin: 30px;
+  width: 100%;
+  transition: color rotateY(15deg) ease-in-out;
+  transition-duration: 3s;
+  box-shadow: 0px 2px 20px 2px #babdcc;
+  transition: 0.5s;
+}
+
+.list_node_internship:hover {
+  transition-duration: 3s;
+  box-shadow: 0px 2px 20px 2px #babdcc;
+  transition: 0.5s;
+  color: black;
+  transition-duration: 3s;
+  box-shadow: 0px 2px 20px 2px #babdcc;
+  transition: 0.5s;
+  transform: rotatey(15deg);
+  --border-width: 10px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(to right, #fff 20%, #fff 40%, #7accff 50%, #7accff 55%, #fff 70%, #fff 100%);
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+
+.list_node_back {
+  background-color: #babdcc;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.list_node_text {
+  font-size: 2rem;
+  list-style-type: none;
+}
+
+.list_node_text_internship {
+  font-size: 2rem;
+  list-style-type: none;
+}
+
+.user-item img,
+.user-item h3 {
+  display: inline-block;
+}
+.jumbotron .btn .user-item h3 a {
+  color: #5bc0de;
+  padding: 5px !important;
+  font-size: 12px !important;
+}
+
+
+@media only screen and (width < 630px) {
+ .list_node_text_internship {
+  font-size: 1.5rem;
+ }
+}
+

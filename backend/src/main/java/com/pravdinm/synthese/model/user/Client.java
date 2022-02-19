@@ -18,9 +18,6 @@ import java.util.List;
 @Document(collection = "client")
 public class Client extends User{
 
-    @Field
-    private Preferences preferences;
-
     @Builder.Default
     private List<Shipping> shippingList = new ArrayList<>();
 
