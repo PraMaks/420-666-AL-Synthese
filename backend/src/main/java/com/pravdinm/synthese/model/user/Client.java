@@ -1,15 +1,13 @@
 package com.pravdinm.synthese.model.user;
 
-import com.pravdinm.synthese.model.delivery.Shipping;
+import com.pravdinm.synthese.model.delivery.Order;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -19,10 +17,10 @@ import java.util.List;
 public class Client extends User{
 
     @Builder.Default
-    private List<Shipping> shippingList = new ArrayList<>();
+    private List<Order> orderList = new ArrayList<>();
 
     public Client() {
         super();
-        this.shippingList = new ArrayList<>();
+        this.orderList = new ArrayList<>();
     }
 }
