@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Document(collection = "product")
 public class Product {
 

@@ -27,4 +27,9 @@ public class Order {
     @Field
     private String city;
 
+    public Order() {
+        super();
+        this.listingList= new ArrayList<>();
+    }
+
 }
