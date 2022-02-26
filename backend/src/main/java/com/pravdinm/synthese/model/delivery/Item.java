@@ -25,4 +25,7 @@ public class Item {
 
     @Field
     private float itemCost;
+
+    @Field
+    private String productHistoryInfo;
 }

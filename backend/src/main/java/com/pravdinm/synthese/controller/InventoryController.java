@@ -1,6 +1,7 @@
 package com.pravdinm.synthese.controller;
 
 import com.pravdinm.synthese.model.delivery.Item;
+import com.pravdinm.synthese.model.delivery.Listing;
 import com.pravdinm.synthese.model.delivery.Product;
 import com.pravdinm.synthese.service.InventoryService;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,9 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
-    @PostMapping("/inventory/item/add/{itemAvailability}/{itemCost}")
-    public ResponseEntity<Item> addItem(@RequestBody Product product, @PathVariable int itemAvailability, @PathVariable float itemCost) {
-        return service.addItem(product, itemAvailability, itemCost)
+    @PostMapping("/inventory/item/add/{productId}/{itemAvailability}/{itemCost}")
+    public ResponseEntity<Item> addItem(@PathVariable String productId, @PathVariable int itemAvailability, @PathVariable float itemCost) {
+        return service.addItem(productId, itemAvailability, itemCost)
                 .map(_item -> ResponseEntity.status(HttpStatus.CREATED).body(_item))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
@@ -42,6 +43,20 @@ public class InventoryController {
     public ResponseEntity<Item> getItem(@PathVariable String itemId) {
         return service.getItem(itemId)
                 .map(_item -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_item))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @PostMapping("/inventory/listing/add/{itemId}/{listingAmount}")
+    public ResponseEntity<Listing> addListing(@PathVariable String itemId, @PathVariable int listingAmount) {
+        return service.addListing(itemId, listingAmount)
+                .map(_listing -> ResponseEntity.status(HttpStatus.CREATED).body(_listing))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/inventory/listing/get/{listingId}")
+    public ResponseEntity<Listing> getListing(@PathVariable String listingId) {
+        return service.getListing(listingId)
+                .map(_listing -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_listing))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
