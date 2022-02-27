@@ -2,6 +2,7 @@ package com.pravdinm.synthese.controller;
 
 import com.pravdinm.synthese.model.delivery.Item;
 import com.pravdinm.synthese.model.delivery.Listing;
+import com.pravdinm.synthese.model.delivery.Order;
 import com.pravdinm.synthese.model.delivery.Product;
 import com.pravdinm.synthese.service.InventoryService;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,20 @@ public class InventoryController {
     public ResponseEntity<Listing> getListing(@PathVariable String listingId) {
         return service.getListing(listingId)
                 .map(_listing -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_listing))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @PostMapping("/inventory/order/add")
+    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+        return service.addOrder(order)
+                .map(_order -> ResponseEntity.status(HttpStatus.CREATED).body(_order))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/inventory/order/get/{orderId}")
+    public ResponseEntity<Order> getOrder(@PathVariable String orderId) {
+        return service.getOrder(orderId)
+                .map(_order -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_order))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 

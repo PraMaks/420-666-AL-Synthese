@@ -2,15 +2,18 @@ package com.pravdinm.synthese.service;
 
 import com.pravdinm.synthese.model.delivery.Item;
 import com.pravdinm.synthese.model.delivery.Listing;
+import com.pravdinm.synthese.model.delivery.Order;
 import com.pravdinm.synthese.model.delivery.Product;
 import com.pravdinm.synthese.repository.ItemRepository;
 import com.pravdinm.synthese.repository.ListingRepository;
+import com.pravdinm.synthese.repository.OrderRepository;
 import com.pravdinm.synthese.repository.ProductRepository;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,19 +22,21 @@ public class InventoryService {
     private final ProductRepository productRepository;
     private final ItemRepository itemRepository;
     private final ListingRepository listingRepository;
+    private final OrderRepository orderRepository;
 
     InventoryService(ProductRepository productRepository,
                      ItemRepository itemRepository,
-                     ListingRepository listingRepository) {
+                     ListingRepository listingRepository,
+                     OrderRepository orderRepository) {
         this.productRepository = productRepository;
         this.itemRepository = itemRepository;
         this.listingRepository = listingRepository;
+        this.orderRepository = orderRepository;
     }
 
     public Optional<Product> addProduct(Product product) {
         Optional<Product> optionalProduct = Optional.empty();
         try {
-            System.out.println(product);
             optionalProduct = Optional.of(productRepository.save(product));
         } catch (DuplicateKeyException exception) {
             exception.printStackTrace();
@@ -77,14 +82,19 @@ public class InventoryService {
 
     public Optional<Listing> addListing(String itemId, int listingAmount) {
         Optional<Item> optionalItem = itemRepository.findById(itemId);
-        if(optionalItem.isPresent())
-            return optionalItem.map(item -> createListing(listingAmount, item));
-        else
-            return Optional.empty();
+        if(optionalItem.isPresent()) {
+            Item itemFound = optionalItem.get();
+            if(itemFound.getItemAvailability() >= listingAmount)
+                return optionalItem.map(item -> createListing(listingAmount, item));
+        }
+        return Optional.empty();
     }
 
     private Listing createListing(int listingAmount, Item item){
         Listing listing = new Listing();
+
+        updateItemAvailability(listingAmount, item);
+
         listing.setItem(item);
         listing.setListingAmount(listingAmount);
         listing.setListingPrice(calculatePrice(listingAmount, item));
@@ -92,16 +102,55 @@ public class InventoryService {
         return listingRepository.save(listing);
     }
 
+    private void updateItemAvailability(int listingAmount, Item item){
+        item.setItemAvailability(item.getItemAvailability() - listingAmount);
+        itemRepository.save(item);
+    }
+
     private float calculatePrice(int listingAmount, Item item){
         return listingAmount * item.getItemCost();
     }
 
     private String archiveItemInfo(Item item){
-
-        return "The archived item availability at" + getCurrentFormattedDate() + " was " + item.getItemAvailability() + " with a cost of $" + item.getItemCost() + ". " + archiveProductInfo(item.getProduct());
+        return "The archived item availability at " + getCurrentFormattedDate() + " was " + item.getItemAvailability() + " with a cost of $" + item.getItemCost() + ". " + archiveProductInfo(item.getProduct());
     }
 
     public Optional<Listing> getListing(String listingId) {
         return listingRepository.findById(listingId);
+    }
+
+    public Optional<Order> addOrder(Order order) {
+        Optional<Order> optionalOrder = Optional.empty();
+        try {
+            for(String listingId : order.getListingIdList()){
+                if(listingRepository.findById(listingId).isEmpty()){
+                    return Optional.empty();
+                }
+            }
+            optionalOrder = Optional.of(order);
+            Order orderToSave = optionalOrder.get();
+
+            orderToSave.setOrderInfo(archiveOrderInfo(orderToSave.getListingIdList()));
+
+            orderRepository.save(optionalOrder.get());
+        } catch (DuplicateKeyException exception) {
+            exception.printStackTrace();
+        }
+        return optionalOrder;
+    }
+
+    private String archiveOrderInfo(List<String> listingIdList){
+        String orderInfo = "The order was made " + getCurrentFormattedDate() + " contains listings of : ";
+        int listingCounter = 1;
+        for(String listingId : listingIdList){
+            Listing listing = listingRepository.findById(listingId).get();
+            orderInfo += listingCounter + ") " + archiveItemInfo(listing.getItem()) + " with a price of $" + listing.getListingPrice() + ". The listing's amount is " + listing.getListingAmount();
+            listingCounter++;
+        }
+        return orderInfo;
+    }
+
+    public Optional<Order> getOrder(String orderId) {
+        return orderRepository.findById(orderId);
     }
 }
