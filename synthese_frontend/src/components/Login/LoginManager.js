@@ -25,12 +25,12 @@ const LoginManager = () => {
       )
       .then((response) => {
         console.log(response.data);
-        /*auth.login(() => {
+        auth.login(() => {
           history.push({
             pathname: `/home/${response.data.username}`,
             state: response.data,
           });
-        }, response.data);*/
+        }, response.data);
       })
       .catch((error) => {
         setErrorMessage(

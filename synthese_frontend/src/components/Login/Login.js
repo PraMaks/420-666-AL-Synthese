@@ -1,14 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { useHistory } from "react-router";
 import { Container, Row, Col } from "react-bootstrap";
 import LoginClient from "./LoginClient";
 import LoginManager from "./LoginManager";
 import "../../styles/Form.css";
 
 const Login = () => {
-  let history = useHistory();
-
   const [currentLogin, setCurrentLogin] = useState("client");
 
   function handleClick(newChoice) {

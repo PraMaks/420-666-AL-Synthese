@@ -25,16 +25,13 @@ const SignUp = () => {
     axios
       .post(`http://localhost:9090/signUp/client`, fields)
       .then((response) => {
-        if (response.data === "") {
-        } else {
-          auth.login(() => {
-            console.log(response.data);
-            /*history.push({
-              pathname: `/home/${response.data.username}`,
-              state: response.data,
-            });*/
-          }, response.data);
-        }
+        auth.login(() => {
+          console.log(response.data);
+          history.push({
+            pathname: `/home/${response.data.username}`,
+            state: response.data,
+          });
+        }, response.data);
       })
       .catch((error) => {
         setErrorMessage();

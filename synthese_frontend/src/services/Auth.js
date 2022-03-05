@@ -32,21 +32,14 @@ class Auth {
     return this.authenticated;
   }
 
-  isStudent() {
-    return this.authenticated ? this.user.username.startsWith("E") : false;
+  loggedIn() {
+    return this.authenticated ? sessionStorage.getItem("user") !== null : false;
   }
 
-  isSupervisor() {
-    return this.authenticated ? this.user.username.startsWith("S") : false;
+  loggedInManager() {
+    return this.authenticated ? sessionStorage.getItem("user").managerTitle !== null : false;
   }
 
-  isMonitor() {
-    return this.authenticated ? this.user.username.startsWith("M") : false;
-  }
-
-  isInternshipManager() {
-    return this.authenticated ? this.user.username.startsWith("G") : false;
-  }
 }
 
 export default new Auth();
