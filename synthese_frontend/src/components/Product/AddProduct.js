@@ -6,29 +6,29 @@ import axios from "axios";
 import auth from "../../services/Auth";
 import "../../styles/Form.css";
 
-const SignUp = () => {
+const AddProduct = () => {
   let history = useHistory();
+
+  let user = auth.user;
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const [fields, handleFieldChange] = useFormFields({
-    username: "",
-    password: "",
-    email: "",
-    firstName: "",
-    lastName: "",
+    productName: "",
+    productDescription: "",
+    productCompany: "",
   });
 
   function onCreatePost(e) {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:9090/signUp/client`, fields)
+      .post(`http://localhost:9090/inventory/product/add`, fields)
       .then((response) => {
         auth.login(() => {
           console.log(response.data);
           history.push({
-            pathname: `/home/${response.data.username}`,
+            pathname: `/home/${user.username}`,
             state: response.data,
           });
         }, response.data);
@@ -43,60 +43,37 @@ const SignUp = () => {
       <Row className="cont_central_signUp">
         <Col md="auto">
           <Container className="cont_title_form">
-            <h2>Inscription</h2>
+            <h2>Ajout du nouveau produit</h2>
           </Container>
           <Row>
             <Form onSubmit={(e) => onCreatePost(e)}>
               <Container className="cont_inputs">
-                <Form.Label className="discret mb-0">
-                  Veuillez entrer vos identifiants Client
-                </Form.Label>
-                <Form.Group controlId="username">
+                <Form.Group controlId="productName">
                   <Form.Control
-                    value={fields.username}
+                    value={fields.productName}
                     onChange={handleFieldChange}
                     type="text"
-                    placeholder="Nom d'utilisateur"
+                    placeholder="Nom du produit"
                     className="input_form"
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="password">
+                <Form.Group controlId="productDescription">
                   <Form.Control
-                    value={fields.password}
-                    onChange={handleFieldChange}
-                    type="password"
-                    placeholder="Mot de passe"
-                    className="input_form"
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="email">
-                  <Form.Control
-                    value={fields.email}
-                    onChange={handleFieldChange}
-                    type="email"
-                    placeholder="Courriel"
-                    className="input_form"
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="firstName">
-                  <Form.Control
-                    value={fields.firstName}
+                    value={fields.productDescription}
                     onChange={handleFieldChange}
                     type="text"
-                    placeholder="Prénom"
+                    placeholder="Description du produit"
                     className="input_form"
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="lastName">
+                <Form.Group controlId="productCompany">
                   <Form.Control
-                    value={fields.lastName}
+                    value={fields.productCompany}
                     onChange={handleFieldChange}
                     type="text"
-                    placeholder="Nom de famille"
+                    placeholder="Compagnie du produit"
                     className="input_form"
                     required
                   />
@@ -114,4 +91,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default AddProduct;

@@ -10,9 +10,12 @@ import "../../styles/Session.css";
 function NavigationBar() {
   let history = useHistory();
 
+  let user = auth.user;
+
+  console.log(user)
+
   const [userStatus, setUserStatus] = useState({
     isLoggedIn: auth.authenticated,
-    isLoggedInManager: auth.isLoggedInManager
   });
 
   history.listen(() => {
@@ -21,25 +24,42 @@ function NavigationBar() {
     });
   });
 
+  function checkIfManager(){
+    if(user !== undefined){
+      return user.hasOwnProperty('managerTitle')
+    }
+  }
+
   function checkIfLogin() {
-    if (userStatus.isLoggedInManager) {
+    if (checkIfManager()) {
+      console.log("wtf")
       return (
         <>
-          <div className="menu-item menu-navbar">
-            <ul>
-              <li>
-                <button
-                  onClick={() => {
-                    history.push({
-                      pathname: "/home",
-                    });
-                  }}
-                >
-                  ACCUEIL
-                </button>
-              </li>
-            </ul>
-          </div>
+          <Nav.Link>
+            <li
+              className="nav-links-header"
+              onClick={() => {
+                history.push({
+                  pathname: "/home",
+                });
+              }}
+            >
+              ACCUEIL
+            </li>
+          </Nav.Link>
+          
+          <Nav.Link>
+            <li className="nav-links-header"
+              onClick={() => {
+                history.push({
+                  pathname: "/product/add",
+                })
+              }}
+            >
+              Ajouter un produit
+            </li>
+          </Nav.Link>
+
           <Nav.Link>
             <li
               className="nav-links-header"
@@ -57,7 +77,7 @@ function NavigationBar() {
     } else if (userStatus.isLoggedIn) {
       return (
         <>
-        <Nav.Link>
+          <Nav.Link>
             <li
               className="nav-links-header"
               onClick={() => {
@@ -71,8 +91,7 @@ function NavigationBar() {
           </Nav.Link>
         </>
       );
-    }
-    else {
+    } else {
       return (
         <>
           <Nav.Link as={Link} to="/signUp">
