@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("http://localhost:3006")
 public class InventoryController {
@@ -30,6 +32,13 @@ public class InventoryController {
     public ResponseEntity<Product> getProduct(@PathVariable String productId) {
         return service.getProduct(productId)
                 .map(_product -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_product))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/inventory/product/getAll")
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return service.getAllProducts()
+                .map(_products -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_products))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 

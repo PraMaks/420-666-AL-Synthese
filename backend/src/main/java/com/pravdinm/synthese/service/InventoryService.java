@@ -48,6 +48,11 @@ public class InventoryService {
         return productRepository.findById(productId);
     }
 
+    public Optional<List<Product>> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.isEmpty() ? Optional.empty() : Optional.of(products);
+    }
+
     public Optional<Item> addItem(String productId, int itemAvailability, float itemCost) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if(optionalProduct.isPresent())

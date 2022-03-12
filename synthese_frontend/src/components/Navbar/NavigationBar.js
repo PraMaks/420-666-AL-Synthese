@@ -12,8 +12,6 @@ function NavigationBar() {
 
   let user = auth.user;
 
-  console.log(user)
-
   const [userStatus, setUserStatus] = useState({
     isLoggedIn: auth.authenticated,
   });
@@ -24,15 +22,14 @@ function NavigationBar() {
     });
   });
 
-  function checkIfManager(){
-    if(user !== undefined){
-      return user.hasOwnProperty('managerTitle')
+  function checkIfManager() {
+    if (user !== undefined) {
+      return user.hasOwnProperty("managerTitle");
     }
   }
 
   function checkIfLogin() {
     if (checkIfManager()) {
-      console.log("wtf")
       return (
         <>
           <Nav.Link>
@@ -44,21 +41,40 @@ function NavigationBar() {
                 });
               }}
             >
-              ACCUEIL
+              Accueil
             </li>
           </Nav.Link>
-          
-          <Nav.Link>
-            <li className="nav-links-header"
-              onClick={() => {
-                history.push({
-                  pathname: "/product/add",
-                })
-              }}
-            >
-              Ajouter un produit
-            </li>
-          </Nav.Link>
+
+          <div className="menu-item menu-navbar">
+            <p className="menu-item-title py-2">Options Produits</p>
+            <ul>
+              <li>
+                <button
+                  className="menu-item-button menu-item-button-selected"
+                  onClick={() => {
+                    history.push({
+                      pathname: "/product/add",
+                    });
+                  }}
+                >
+                  Ajouter un produit
+                </button>
+              </li>
+
+              <li>
+                <button
+                  className="menu-item-button menu-item-button-selected"
+                  onClick={() => {
+                    history.push({
+                      pathname: "/product/showAll",
+                    });
+                  }}
+                >
+                  Modifier un produit
+                </button>
+              </li>
+            </ul>
+          </div>
 
           <Nav.Link>
             <li
