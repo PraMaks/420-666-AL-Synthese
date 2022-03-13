@@ -3,32 +3,25 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
-import auth from "../../services/Auth";
 import "../../styles/Form.css";
 
-const AddProduct = () => {
+const UpdateItem = () => {
   let history = useHistory();
-
-  let user = auth.user;
+  let state = history.location.state;
+  let item = state.item;
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [fields, handleFieldChange] = useFormFields({
-    productName: "",
-    productDescription: "",
-    productCompany: "",
-  });
+  const [fields, handleFieldChange] = useFormFields(item);
 
   function onCreatePost(e) {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:9090/inventory/product/add`, fields)
+      .post("http://localhost:9090/inventory/item/update/" + fields.product.productId + "/" + fields.itemAvailability + "/" + fields.itemCost)
       .then((response) => {
-        console.log(response.data);
         history.push({
-          pathname: `/home/${user.username}`,
-          state: response.data,
+          pathname: "/item/showAll",
         });
       })
       .catch((error) => {
@@ -46,31 +39,64 @@ const AddProduct = () => {
           <Row>
             <Form onSubmit={(e) => onCreatePost(e)}>
               <Container className="cont_inputs">
-                <Form.Group controlId="productName">
+                <Form.Group controlId="productId">
+                  <Form.Label className="discret mb-0">
+                    ID du produit
+                  </Form.Label>
                   <Form.Control
-                    value={fields.productName}
+                    value={item.product.productId}
                     onChange={handleFieldChange}
                     type="text"
                     placeholder="Nom du produit"
                     className="input_form"
                     required
+                    disabled
                   />
                 </Form.Group>
-                <Form.Group controlId="productDescription">
+                <Form.Group controlId="productName">
+                  <Form.Label className="discret mb-0">
+                    Nom du produit
+                  </Form.Label>
                   <Form.Control
-                    value={fields.productDescription}
+                    value={item.product.productName}
                     onChange={handleFieldChange}
                     type="text"
+                    placeholder="Nom du produit"
+                    className="input_form"
+                    required
+                    disabled
+                  />
+                </Form.Group>
+                <Form.Group controlId="productCompany">
+                  <Form.Label className="discret mb-0">
+                    Compagnie du produit
+                  </Form.Label>
+                  <Form.Control
+                    value={item.product.productCompany}
+                    onChange={handleFieldChange}
+                    type="text"
+                    placeholder="Nom du produit"
+                    className="input_form"
+                    required
+                    disabled
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="itemAvailability">
+                  <Form.Control
+                    value={fields.itemAvailability}
+                    onChange={handleFieldChange}
+                    type="number"
                     placeholder="Description du produit"
                     className="input_form"
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="productCompany">
+                <Form.Group controlId="itemCost">
                   <Form.Control
-                    value={fields.productCompany}
+                    value={fields.itemCost}
                     onChange={handleFieldChange}
-                    type="text"
+                    type="number"
                     placeholder="Compagnie du produit"
                     className="input_form"
                     required
@@ -89,4 +115,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateItem;

@@ -56,6 +56,20 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
+    @GetMapping("/inventory/item/getAll")
+    public ResponseEntity<List<Item>> getAllItems(){
+        return service.getAllItems()
+                .map(_products -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_products))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @PostMapping("/inventory/item/update/{productId}/{itemAvailability}/{itemCost}")
+    public ResponseEntity<Item> updateItem(@PathVariable String productId, @PathVariable int itemAvailability, @PathVariable float itemCost) {
+        return service.updateItem(productId, itemAvailability, itemCost)
+                .map(_item -> ResponseEntity.status(HttpStatus.CREATED).body(_item))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
     @PostMapping("/inventory/listing/add/{itemId}/{listingAmount}")
     public ResponseEntity<Listing> addListing(@PathVariable String itemId, @PathVariable int listingAmount) {
         return service.addListing(itemId, listingAmount)

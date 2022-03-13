@@ -1,22 +1,22 @@
 import React from "react";
 import "../../styles/List.css";
 import { Container } from "react-bootstrap";
-import Product from "./Product";
+import Item from "./Item";
 
-function ProductTemplate({ products, onClick }) {
+function ItemTemplate({ items, onClick }) {
   return (
     <Container className="cont_principal">
       <Container className="cont_list_centrar">
         <h2 className="cont_title_form mb-3 mt-3">
-          Liste de tous les produits
+          Liste de tous les items
         </h2>
         <Container className="cont_list">
           <p className="cont_title_form"></p>
           <ul>
-            {products.map((product) => (
-              <Product
-                key={products.indexOf(product)}
-                product={product}
+            {items.map((item) => (
+              <Item
+                key={items.indexOf(item)}
+                item={item}
                 onClick={onClick}
               />
             ))}
@@ -27,4 +27,4 @@ function ProductTemplate({ products, onClick }) {
   );
 }
 
-export default ProductTemplate;
+export default ItemTemplate;

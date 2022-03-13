@@ -85,6 +85,26 @@ public class InventoryService {
         return itemRepository.findById(itemId);
     }
 
+    public Optional<List<Item>> getAllItems() {
+        List<Item> items = itemRepository.findAll();
+        return items.isEmpty() ? Optional.empty() : Optional.of(items);
+    }
+
+    public Optional<Item> updateItem(String productId, int itemAvailability, float itemCost){
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(optionalProduct.isPresent()) {
+            Optional<Item> optionalItem = itemRepository.findByProduct(optionalProduct.get());
+            if(optionalItem.isPresent()){
+                Item item = optionalItem.get();
+                item.setItemAvailability(itemAvailability);
+                item.setItemCost(itemCost);
+                optionalItem = Optional.of(itemRepository.save(item));
+                return optionalItem;
+            }
+        }
+        return Optional.empty();
+    }
+
     public Optional<Listing> addListing(String itemId, int listingAmount) {
         Optional<Item> optionalItem = itemRepository.findById(itemId);
         if(optionalItem.isPresent()) {

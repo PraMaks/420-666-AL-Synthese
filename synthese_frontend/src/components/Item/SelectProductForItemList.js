@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import ProductTemplate from "./ProductTemplate";
+import ProductTemplate from "../Product/ProductTemplate";
 import axios from "axios";
 import { useHistory } from "react-router";
 
-function AllProductsList() {
+function SelectProductForItemList() {
   let history = useHistory();
   const [products, setProducts] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     axios
@@ -14,13 +15,13 @@ function AllProductsList() {
         setProducts(response.data);
       })
       .catch((err) => {
-        console.log(err)
+        setErrorMessage();
       });
   }, []);
 
   function showProduct(product) {
     history.push({
-      pathname: "/product/update",
+      pathname: "/item/add",
       state: {
         product: product,
       },
@@ -31,9 +32,10 @@ function AllProductsList() {
   return (
     <ProductTemplate
       products={products}
+      errorMessage={errorMessage}
       onClick={showProduct}
     />
   );
 }
 
-export default AllProductsList;
+export default SelectProductForItemList;

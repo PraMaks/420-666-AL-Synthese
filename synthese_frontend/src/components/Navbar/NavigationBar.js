@@ -76,6 +76,37 @@ function NavigationBar() {
             </ul>
           </div>
 
+          <div className="menu-item menu-navbar">
+            <p className="menu-item-title py-2">Options Item</p>
+            <ul>
+              <li>
+                <button
+                  className="menu-item-button menu-item-button-selected"
+                  onClick={() => {
+                    history.push({
+                      pathname: "/item/selectProduct",
+                    });
+                  }}
+                >
+                  Ajouter un item
+                </button>
+              </li>
+
+              <li>
+                <button
+                  className="menu-item-button menu-item-button-selected"
+                  onClick={() => {
+                    history.push({
+                      pathname: "/item/showAll",
+                    });
+                  }}
+                >
+                  Modifier un item
+                </button>
+              </li>
+            </ul>
+          </div>
+
           <Nav.Link>
             <li
               className="nav-links-header"
