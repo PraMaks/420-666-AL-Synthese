@@ -59,7 +59,7 @@ public class InventoryController {
     @GetMapping("/inventory/item/getAll")
     public ResponseEntity<List<Item>> getAllItems(){
         return service.getAllItems()
-                .map(_products -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_products))
+                .map(_items -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_items))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
@@ -70,9 +70,9 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
-    @PostMapping("/inventory/listing/add/{itemId}/{listingAmount}")
-    public ResponseEntity<Listing> addListing(@PathVariable String itemId, @PathVariable int listingAmount) {
-        return service.addListing(itemId, listingAmount)
+    @PostMapping("/inventory/listing/add/{itemId}/{listingAmount}/{userId}")
+    public ResponseEntity<Listing> addListing(@PathVariable String itemId, @PathVariable int listingAmount, @PathVariable String userId) {
+        return service.addListing(itemId, listingAmount, userId)
                 .map(_listing -> ResponseEntity.status(HttpStatus.CREATED).body(_listing))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
@@ -81,6 +81,13 @@ public class InventoryController {
     public ResponseEntity<Listing> getListing(@PathVariable String listingId) {
         return service.getListing(listingId)
                 .map(_listing -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_listing))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/inventory/listing/getList/{userId}")
+    public ResponseEntity<List<Listing>> getListingsFromUser(@PathVariable String userId) {
+        return service.getListingFromUser(userId)
+                .map(_listings -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_listings))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
@@ -95,6 +102,13 @@ public class InventoryController {
     public ResponseEntity<Order> getOrder(@PathVariable String orderId) {
         return service.getOrder(orderId)
                 .map(_order -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_order))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/inventory/item/getAllAvailable")
+    public ResponseEntity<List<Item>> getAllAvailableItems(){
+        return service.getAllAvailableItems()
+                .map(_items -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_items))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 

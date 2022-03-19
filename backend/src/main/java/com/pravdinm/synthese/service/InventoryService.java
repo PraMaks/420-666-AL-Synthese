@@ -4,10 +4,8 @@ import com.pravdinm.synthese.model.delivery.Item;
 import com.pravdinm.synthese.model.delivery.Listing;
 import com.pravdinm.synthese.model.delivery.Order;
 import com.pravdinm.synthese.model.delivery.Product;
-import com.pravdinm.synthese.repository.ItemRepository;
-import com.pravdinm.synthese.repository.ListingRepository;
-import com.pravdinm.synthese.repository.OrderRepository;
-import com.pravdinm.synthese.repository.ProductRepository;
+import com.pravdinm.synthese.model.user.Client;
+import com.pravdinm.synthese.repository.*;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +21,18 @@ public class InventoryService {
     private final ItemRepository itemRepository;
     private final ListingRepository listingRepository;
     private final OrderRepository orderRepository;
+    private final ClientRepository clientRepository;
 
     InventoryService(ProductRepository productRepository,
                      ItemRepository itemRepository,
                      ListingRepository listingRepository,
-                     OrderRepository orderRepository) {
+                     OrderRepository orderRepository,
+                     ClientRepository clientRepository) {
         this.productRepository = productRepository;
         this.itemRepository = itemRepository;
         this.listingRepository = listingRepository;
         this.orderRepository = orderRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Optional<Product> addProduct(Product product) {
@@ -105,17 +106,17 @@ public class InventoryService {
         return Optional.empty();
     }
 
-    public Optional<Listing> addListing(String itemId, int listingAmount) {
+    public Optional<Listing> addListing(String itemId, int listingAmount, String userId) {
         Optional<Item> optionalItem = itemRepository.findById(itemId);
         if(optionalItem.isPresent()) {
             Item itemFound = optionalItem.get();
             if(itemFound.getItemAvailability() >= listingAmount)
-                return optionalItem.map(item -> createListing(listingAmount, item));
+                return optionalItem.map(item -> createListing(listingAmount, item, userId));
         }
         return Optional.empty();
     }
 
-    private Listing createListing(int listingAmount, Item item){
+    private Listing createListing(int listingAmount, Item item, String userId){
         Listing listing = new Listing();
 
         updateItemAvailability(listingAmount, item);
@@ -124,7 +125,18 @@ public class InventoryService {
         listing.setListingAmount(listingAmount);
         listing.setListingPrice(calculatePrice(listingAmount, item));
         listing.setItemHistoryInfo(archiveItemInfo(item));
-        return listingRepository.save(listing);
+        listingRepository.save(listing);
+
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+        if (optionalClient.isPresent()){
+            Client client = optionalClient.get();
+            List<Listing> list = client.getListingList();
+            list.add(listing);
+            clientRepository.save(client);
+            return listing;
+        }
+
+        return null;
     }
 
     private void updateItemAvailability(int listingAmount, Item item){
@@ -142,6 +154,15 @@ public class InventoryService {
 
     public Optional<Listing> getListing(String listingId) {
         return listingRepository.findById(listingId);
+    }
+
+    public Optional<List<Listing>> getListingFromUser(String userId) {
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+        if(optionalClient.isPresent()){
+            Client client = optionalClient.get();
+            return Optional.of(client.getListingList());
+        }
+        return Optional.empty();
     }
 
     public Optional<Order> addOrder(Order order) {
@@ -177,5 +198,10 @@ public class InventoryService {
 
     public Optional<Order> getOrder(String orderId) {
         return orderRepository.findById(orderId);
+    }
+
+    public Optional<List<Item>> getAllAvailableItems() {
+        List<Item> items = itemRepository.findByItemAvailabilityGreaterThan(0).get();
+        return items.isEmpty() ? Optional.empty() : Optional.of(items);
     }
 }

@@ -5,11 +5,14 @@ import com.pravdinm.synthese.model.delivery.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends MongoRepository<Item, String> {
 
     Optional<Item> findByProduct(Product product);
+
+    Optional<List<Item>> findByItemAvailabilityGreaterThan(int qty);
 
 }

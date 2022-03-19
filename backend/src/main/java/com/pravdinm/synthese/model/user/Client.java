@@ -1,5 +1,6 @@
 package com.pravdinm.synthese.model.user;
 
+import com.pravdinm.synthese.model.delivery.Listing;
 import com.pravdinm.synthese.model.delivery.Order;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +20,12 @@ public class Client extends User{
     @Builder.Default
     private List<Order> orderList = new ArrayList<>();
 
+    @Builder.Default
+    private List<Listing> listingList = new ArrayList<>();
+
     public Client() {
         super();
         this.orderList = new ArrayList<>();
+        this.listingList = new ArrayList<>();
     }
 }

@@ -6,6 +6,8 @@ import UpdateProduct from '../components/Product/UpdateProduct';
 import AddItem from '../components/Item/AddItem';
 import AllItemsList from '../components/Item/AllItemsList';
 import UpdateItem from '../components/Item/UpdateItem';
+import AllAvailableItemsList from '../components/Order/AllAvailableItemsList';
+import AddListingToOrder from '../components/Order/AddListingToOrder';
 
 import auth from '../services/Auth';
 
@@ -56,6 +58,18 @@ export const ROUTES = [
         link : "/item/update",
         component: UpdateItem,
         accessValid: () => auth.loggedInManager()
+    },
+
+    {
+        link : "/shop",
+        component: AllAvailableItemsList,
+        accessValid: () => auth.loggedIn() || auth.loggedInManager()
+    },
+
+    {
+        link : "/shop/add",
+        component: AddListingToOrder,
+        accessValid: () => auth.loggedIn() || auth.loggedInManager()
     },
     
 ]

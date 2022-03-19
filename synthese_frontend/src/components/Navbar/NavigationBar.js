@@ -111,8 +111,8 @@ function NavigationBar() {
             <li
               className="nav-links-header"
               onClick={() => {
-                auth.logout(() => {
-                  history.push("/");
+                history.push({
+                  pathname: "/",
                 });
               }}
             >
@@ -124,6 +124,19 @@ function NavigationBar() {
     } else if (userStatus.isLoggedIn) {
       return (
         <>
+           <Nav.Link>
+            <li
+              className="nav-links-header"
+              onClick={() => {
+                history.push({
+                  pathname: "/shop",
+                });
+              }}
+            >
+              Magasiner
+            </li>
+          </Nav.Link>
+
           <Nav.Link>
             <li
               className="nav-links-header"
