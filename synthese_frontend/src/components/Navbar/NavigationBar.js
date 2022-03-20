@@ -124,6 +124,19 @@ function NavigationBar() {
     } else if (userStatus.isLoggedIn) {
       return (
         <>
+            <Nav.Link>
+            <li
+              className="nav-links-header"
+              onClick={() => {
+                history.push({
+                  pathname: "/cart",
+                });
+              }}
+            >
+              Panier
+            </li>
+          </Nav.Link>
+
            <Nav.Link>
             <li
               className="nav-links-header"
@@ -134,6 +147,19 @@ function NavigationBar() {
               }}
             >
               Magasiner
+            </li>
+          </Nav.Link>
+
+          <Nav.Link>
+            <li
+              className="nav-links-header"
+              onClick={() => {
+                history.push({
+                  pathname: "/home",
+                });
+              }}
+            >
+              Accueil
             </li>
           </Nav.Link>
 

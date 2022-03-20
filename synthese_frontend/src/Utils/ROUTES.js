@@ -8,6 +8,8 @@ import AllItemsList from '../components/Item/AllItemsList';
 import UpdateItem from '../components/Item/UpdateItem';
 import AllAvailableItemsList from '../components/Order/AllAvailableItemsList';
 import AddListingToOrder from '../components/Order/AddListingToOrder';
+import AllListingsList from '../components/Cart/AllListingsList';
+import ShowListing from '../components/Cart/ShowListing';
 
 import auth from '../services/Auth';
 
@@ -63,13 +65,25 @@ export const ROUTES = [
     {
         link : "/shop",
         component: AllAvailableItemsList,
-        accessValid: () => auth.loggedIn() || auth.loggedInManager()
+        accessValid: () => auth.loggedIn() 
     },
 
     {
         link : "/shop/add",
         component: AddListingToOrder,
-        accessValid: () => auth.loggedIn() || auth.loggedInManager()
+        accessValid: () => auth.loggedIn() 
+    },
+
+    {
+        link : "/cart",
+        component: AllListingsList,
+        accessValid: () => auth.loggedIn() 
+    },
+
+    {
+        link : "/cart/view",
+        component: ShowListing,
+        accessValid: () => auth.loggedIn() 
     },
     
 ]

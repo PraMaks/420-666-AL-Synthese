@@ -1,41 +1,41 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
-import ItemTemplate from "./ItemTemplate";
+import ListingTemplate from "./ListingTemplate";
 import auth from "../../services/Auth";
 
-function AllItemsList() {
-
+function AllListingsList() {
   let history = useHistory();
-  const [items, setItems] = useState([]);
+  const [listings, setListings] = useState([]);
 
   useEffect(() => {
+    let user = auth.user;
     axios
-      .get("http://localhost:9090/inventory/listing/getList/")
+      .get("http://localhost:9090/inventory/listing/getList/" + user.userId)
       .then((response) => {
-        setItems(response.data);
+        setListings(response.data);
       })
       .catch((err) => {
         console.log(err)
       });
   }, []);
 
-  function showItem(item) {
+  function showListing(listing) {
     history.push({
-      pathname: "/item/update",
+      pathname: "/cart/view",
       state: {
-        item: item,
+        listing: listing,
       },
     });
-    console.log(item);
+    console.log(listing);
   }
 
   return (
-    <ItemTemplate
-      items={items}
-      onClick={showItem}
+    <ListingTemplate
+      listings={listings}
+      onClick={showListing}
     />
   );
 }
 
-export default AllItemsList;
+export default AllListingsList;
