@@ -119,7 +119,7 @@ public class InventoryService {
     private Listing createListing(int listingAmount, Item item, String userId){
         Listing listing = new Listing();
 
-        updateItemAvailability(listingAmount, item);
+        substractItemAvailability(listingAmount, item);
 
         listing.setItem(item);
         listing.setListingAmount(listingAmount);
@@ -139,7 +139,7 @@ public class InventoryService {
         return null;
     }
 
-    private void updateItemAvailability(int listingAmount, Item item){
+    private void substractItemAvailability(int listingAmount, Item item){
         item.setItemAvailability(item.getItemAvailability() - listingAmount);
         itemRepository.save(item);
     }
@@ -156,13 +156,47 @@ public class InventoryService {
         return listingRepository.findById(listingId);
     }
 
-    public Optional<List<Listing>> getListingFromUser(String userId) {
+    public Optional<List<Listing>> getListingFromClient(String userId) {
         Optional<Client> optionalClient = clientRepository.findById(userId);
         if(optionalClient.isPresent()){
             Client client = optionalClient.get();
             return Optional.of(client.getListingList());
         }
         return Optional.empty();
+    }
+
+    public Optional<Client> deleteListingFromClient(String userId, String listingId) {
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+        Optional<Listing> optionalListing = listingRepository.findById(listingId);
+
+        if(optionalClient.isPresent() && optionalListing.isPresent()){
+            Client client = optionalClient.get();
+            Listing listing = optionalListing.get();
+
+            updateItemWhenListingDeleted(listing);
+
+            client.getListingList().remove(listing);
+            listingRepository.delete(listing);
+
+            clientRepository.save(client);
+            return Optional.of(client);
+        }
+        return Optional.empty();
+    }
+
+    private void updateItemWhenListingDeleted(Listing listing){
+        String itemId = listing.getItem().getItemId();
+        Optional<Item> optionalItem = itemRepository.findById(itemId);
+
+        if(optionalItem.isPresent()){
+            Item item = optionalItem.get();
+            addItemAvailability(listing.getListingAmount(), item);
+        }
+    }
+
+    private void addItemAvailability(int listingAmount, Item item){
+        item.setItemAvailability(item.getItemAvailability() + listingAmount);
+        itemRepository.save(item);
     }
 
     public Optional<Order> addOrder(Order order) {

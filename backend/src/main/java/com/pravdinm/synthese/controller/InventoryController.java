@@ -4,6 +4,7 @@ import com.pravdinm.synthese.model.delivery.Item;
 import com.pravdinm.synthese.model.delivery.Listing;
 import com.pravdinm.synthese.model.delivery.Order;
 import com.pravdinm.synthese.model.delivery.Product;
+import com.pravdinm.synthese.model.user.Client;
 import com.pravdinm.synthese.service.InventoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,11 +86,19 @@ public class InventoryController {
     }
 
     @GetMapping("/inventory/listing/getList/{userId}")
-    public ResponseEntity<List<Listing>> getListingsFromUser(@PathVariable String userId) {
-        return service.getListingFromUser(userId)
+    public ResponseEntity<List<Listing>> getListingsFromClient(@PathVariable String userId) {
+        return service.getListingFromClient(userId)
                 .map(_listings -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_listings))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
+
+    @PostMapping("/inventory/listing/delete/{userId}/{listingId}")
+    public ResponseEntity<Client> deleteListingFromClient(@PathVariable String userId, @PathVariable String listingId) {
+        return service.deleteListingFromClient(userId, listingId)
+                .map(_client -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_client))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
 
     @PostMapping("/inventory/order/add")
     public ResponseEntity<Order> addOrder(@RequestBody Order order) {

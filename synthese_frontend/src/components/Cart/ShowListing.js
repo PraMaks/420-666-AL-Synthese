@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
+import DeleteListingFromCart from "./DeleteListingFromCart";
 
 const ShowListing = () => {
   let history = useHistory();
@@ -111,6 +112,7 @@ const ShowListing = () => {
                 <Container className="cont_btn">
                   <p>{errorMessage}</p>
                   <button className="btn_submit">Confirmer</button>
+                  <DeleteListingFromCart listingId={listing.listingId}/>
                 </Container>
               </Container>
             </Form>
