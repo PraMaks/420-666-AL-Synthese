@@ -26,7 +26,6 @@ const SignUp = () => {
       .post(`http://localhost:9090/signUp/client`, fields)
       .then((response) => {
         auth.login(() => {
-          console.log(response.data);
           history.push({
             pathname: `/home/${response.data.username}`,
             state: response.data,
@@ -34,7 +33,7 @@ const SignUp = () => {
         }, response.data);
       })
       .catch((error) => {
-        setErrorMessage();
+        setErrorMessage("L'username ou l'adresse courriel existent déjà");
       });
   }
 

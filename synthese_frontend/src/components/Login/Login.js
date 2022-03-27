@@ -21,7 +21,7 @@ const Login = () => {
     if (currentLogin === "manager") {
       return <LoginManager />;
     }
-    return <p>Not Implemented yet</p>;
+    return <p>You're not supposed to be here</p>;
   }
 
   return (

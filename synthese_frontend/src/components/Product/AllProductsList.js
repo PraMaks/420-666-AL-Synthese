@@ -25,7 +25,6 @@ function AllProductsList() {
         product: product,
       },
     });
-    console.log(product);
   }
 
   return (

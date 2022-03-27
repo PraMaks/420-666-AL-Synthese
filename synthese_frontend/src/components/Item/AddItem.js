@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
-import auth from "../../services/Auth";
 import "../../styles/Form.css";
 
 const AddItem = () => {
@@ -23,20 +22,15 @@ const AddItem = () => {
 
     axios
       .post(
-        "http://localhost:9090/inventory/item/add/" +
-          product.productId +
-          "/" +
-          fields.itemAvailability +
-          "/" +
-          fields.itemCost
+        `http://localhost:9090/inventory/item/add/${product.productId}/${fields.itemAvailability}/${fields.itemCost}`
       )
       .then((response) => {
-        auth.login(() => {
-          console.log(response.data);
+        setTimeout(() => {
           history.push({
-            pathname: "/item/selectProduct",
+            pathname: "item/showAll",
           });
-        }, response.data);
+        }, 3000);
+        setErrorMessage("Le item est rajouté. Vous allez être redirigé...")
       })
       .catch((error) => {
         setErrorMessage();

@@ -39,17 +39,10 @@ const UpdateProduct = () => {
           <Row>
             <Form onSubmit={(e) => onCreatePost(e)}>
               <Container className="cont_inputs">
-                <Form.Group controlId="productId">
-                  <Form.Control
-                    value={fields.productId}
-                    onChange={handleFieldChange}
-                    type="text"
-                    className="input_form"
-                    required
-                    disabled
-                  />
-                </Form.Group>
                 <Form.Group controlId="productName">
+                  <Form.Label className="discret mb-0 underlined_label">
+                    Nom du produit
+                  </Form.Label>
                   <Form.Control
                     value={fields.productName}
                     onChange={handleFieldChange}
@@ -60,6 +53,9 @@ const UpdateProduct = () => {
                   />
                 </Form.Group>
                 <Form.Group controlId="productDescription">
+                  <Form.Label className="discret mb-0 underlined_label">
+                    Description du produit
+                  </Form.Label>
                   <Form.Control
                     value={fields.productDescription}
                     onChange={handleFieldChange}
@@ -70,6 +66,9 @@ const UpdateProduct = () => {
                   />
                 </Form.Group>
                 <Form.Group controlId="productCompany">
+                  <Form.Label className="discret mb-0 underlined_label">
+                    Compagnie du produit
+                  </Form.Label>
                   <Form.Control
                     value={fields.productCompany}
                     onChange={handleFieldChange}

@@ -24,7 +24,6 @@ const LoginClient = () => {
         `http://localhost:9090/login/client/${fields.username}/${fields.password}`
       )
       .then((response) => {
-        //console.log(response.data);
         auth.login(() => {
           history.push({
             pathname: `/home/${response.data.username}`,

@@ -3,13 +3,10 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
-import auth from "../../services/Auth";
 import "../../styles/Form.css";
 
 const AddProduct = () => {
   let history = useHistory();
-
-  let user = auth.user;
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,14 +22,18 @@ const AddProduct = () => {
     axios
       .post(`http://localhost:9090/inventory/product/add`, fields)
       .then((response) => {
-        console.log(response.data);
-        history.push({
-          pathname: `/home/${user.username}`,
-          state: response.data,
-        });
+        setTimeout(() => {
+          history.push({
+            pathname: "/product/showAll",
+            state: response.data,
+          });
+        }, 3000);
+        setErrorMessage("Le produit est ajouté. Vous allez être redirigé...");
       })
       .catch((error) => {
-        setErrorMessage();
+        setErrorMessage(
+          "Erreur! Veuillez réessayez!"
+        );
       });
   }
 
@@ -77,7 +78,16 @@ const AddProduct = () => {
                   />
                 </Form.Group>
                 <Container className="cont_btn">
-                  <p>{errorMessage}</p>
+                  <p
+                    className="error_p"
+                    style={{
+                      color: errorMessage.startsWith("Erreur")
+                        ? "red"
+                        : "green",
+                    }}
+                  >
+                    {errorMessage}
+                  </p>
                   <button className="btn_submit">Confirmer</button>
                 </Container>
               </Container>

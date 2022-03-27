@@ -123,7 +123,14 @@
 }
 
 .discret {
-  color: #9bacb3;
+  /*color: #9bacb3;*/
+  color: #74838a;
+}
+
+.underlined_label{
+  text-decoration: underline;
+  font-size: 1.7rem;
+  text-decoration-color: black;
 }
 
 .cont_inputs {

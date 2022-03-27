@@ -1,4 +1,4 @@
-import Home from '../components/Home';
+import Home from '../components/Home/Home';
 import SelectItemFromProductList from '../components/Item/SelectProductForItemList';
 import AddProduct from '../components/Product/AddProduct';
 import AllProductsList from '../components/Product/AllProductsList';

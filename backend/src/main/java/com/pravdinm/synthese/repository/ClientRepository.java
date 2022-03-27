@@ -11,4 +11,8 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     Optional<Client> findByUsernameAndPassword(String username, String password);
 
+    Optional<Client> findByUsername(String username);
+
+    Optional<Client> findByEmail(String email);
+
 }
