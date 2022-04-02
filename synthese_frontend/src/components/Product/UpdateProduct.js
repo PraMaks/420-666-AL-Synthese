@@ -20,12 +20,17 @@ const UpdateProduct = () => {
     axios
       .post(`http://localhost:9090/inventory/product/add`, fields)
       .then((response) => {
-        history.push({
-          pathname: "/product/showAll",
-        });
+        setTimeout(() => {
+          history.push({
+            pathname: "/product/showAll",
+          });
+        }, 3000);
+        setErrorMessage(
+          "Le produit est mis à jour. Vous allez être redirigé..."
+        );
       })
       .catch((error) => {
-        setErrorMessage();
+        setErrorMessage("Erreur! Veuillez réessayez!");
       });
   }
 
@@ -79,7 +84,16 @@ const UpdateProduct = () => {
                   />
                 </Form.Group>
                 <Container className="cont_btn">
-                  <p>{errorMessage}</p>
+                  <p
+                    className="error_p"
+                    style={{
+                      color: errorMessage.startsWith("Erreur")
+                        ? "red"
+                        : "green",
+                    }}
+                  >
+                    {errorMessage}
+                  </p>
                   <button className="btn_submit">Mettre à jour</button>
                 </Container>
               </Container>

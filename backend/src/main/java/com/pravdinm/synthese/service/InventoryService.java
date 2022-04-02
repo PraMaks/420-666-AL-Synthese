@@ -54,6 +54,21 @@ public class InventoryService {
         return products.isEmpty() ? Optional.empty() : Optional.of(products);
     }
 
+    public Boolean deleteProduct(String productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(optionalProduct.isPresent()){
+            Optional<Item> optionalItem = itemRepository.findByProduct(optionalProduct.get());
+            if(optionalItem.isPresent()){
+                Item item = optionalItem.get();
+                itemRepository.deleteById(item.getItemId());
+            }
+
+            productRepository.deleteById(productId);
+            return true;
+        }
+        return false;
+    }
+
     public Optional<Item> addItem(String productId, int itemAvailability, float itemCost) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if(optionalProduct.isPresent())
@@ -104,6 +119,15 @@ public class InventoryService {
             }
         }
         return Optional.empty();
+    }
+
+    public Boolean deleteItem(String itemId) {
+        Optional<Item> optionalItem = itemRepository.findById(itemId);
+        if(optionalItem.isPresent()){
+            itemRepository.deleteById(itemId);
+            return true;
+        }
+        return false;
     }
 
     public Optional<Listing> addListing(String itemId, int listingAmount, String userId) {

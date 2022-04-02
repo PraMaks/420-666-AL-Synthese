@@ -8,6 +8,12 @@ import UserInfo from "./UserInfo";
 function Home() {
   let user = auth.user;
 
+  console.log(user.managerTitle)
+  console.log(sessionStorage.getItem("user").managerTitle !== null)
+  console.log(sessionStorage.getItem("user").managerTitle !== undefined)
+  console.log(sessionStorage.getItem("user"))
+  console.log(user.managerTitle !== undefined)
+
   return (
     <>
       <Container className="cont_principal">

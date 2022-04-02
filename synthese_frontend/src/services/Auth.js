@@ -37,7 +37,7 @@ class Auth {
   }
 
   loggedInManager() {
-    return this.authenticated ? sessionStorage.getItem("user").managerTitle !== null : false;
+    return this.authenticated ? sessionStorage.getItem("user").managerTitle !== null && JSON.parse(sessionStorage.getItem("user")).managerTitle !== undefined : false;
   }
 
 }

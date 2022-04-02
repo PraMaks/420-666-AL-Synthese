@@ -5,30 +5,29 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
 
-const AddProduct = () => {
+const DeleteProduct = () => {
   let history = useHistory();
+  let state = history.location.state;
+  let product = state.product;
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [fields, handleFieldChange] = useFormFields({
-    productName: "",
-    productDescription: "",
-    productCompany: "",
-  });
+  const [fields, handleFieldChange] = useFormFields(product);
 
   function onCreatePost(e) {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:9090/inventory/product/add`, fields)
+      .post(
+        `http://localhost:9090/inventory/product/delete/${product.productId}`
+      )
       .then((response) => {
         setTimeout(() => {
           history.push({
             pathname: "/product/showAll",
-            state: response.data,
           });
         }, 3000);
-        setErrorMessage("Le produit est ajouté. Vous allez être redirigé...");
+        setErrorMessage("Le produit est supprimé. Vous allez être redirigé...");
       })
       .catch((error) => {
         setErrorMessage("Erreur! Veuillez réessayez!");
@@ -40,12 +39,15 @@ const AddProduct = () => {
       <Row className="cont_central_signUp">
         <Col md="auto">
           <Container className="cont_title_form">
-            <h2>Ajout du nouveau produit</h2>
+            <h2>Suppression du produit</h2>
           </Container>
           <Row>
             <Form onSubmit={(e) => onCreatePost(e)}>
               <Container className="cont_inputs">
                 <Form.Group controlId="productName">
+                  <Form.Label className="discret mb-0 underlined_label">
+                    Nom du produit
+                  </Form.Label>
                   <Form.Control
                     value={fields.productName}
                     onChange={handleFieldChange}
@@ -53,9 +55,13 @@ const AddProduct = () => {
                     placeholder="Nom du produit"
                     className="input_form"
                     required
+                    disabled
                   />
                 </Form.Group>
                 <Form.Group controlId="productDescription">
+                  <Form.Label className="discret mb-0 underlined_label">
+                    Description du produit
+                  </Form.Label>
                   <Form.Control
                     value={fields.productDescription}
                     onChange={handleFieldChange}
@@ -63,9 +69,13 @@ const AddProduct = () => {
                     placeholder="Description du produit"
                     className="input_form"
                     required
+                    disabled
                   />
                 </Form.Group>
                 <Form.Group controlId="productCompany">
+                  <Form.Label className="discret mb-0 underlined_label">
+                    Compagnie du produit
+                  </Form.Label>
                   <Form.Control
                     value={fields.productCompany}
                     onChange={handleFieldChange}
@@ -73,6 +83,7 @@ const AddProduct = () => {
                     placeholder="Compagnie du produit"
                     className="input_form"
                     required
+                    disabled
                   />
                 </Form.Group>
                 <Container className="cont_btn">
@@ -86,7 +97,7 @@ const AddProduct = () => {
                   >
                     {errorMessage}
                   </p>
-                  <button className="btn_submit">Confirmer</button>
+                  <button className="btn_submit">Supprimer</button>
                 </Container>
               </Container>
             </Form>
@@ -97,4 +108,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default DeleteProduct;

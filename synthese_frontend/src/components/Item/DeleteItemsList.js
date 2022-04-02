@@ -3,7 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import ItemTemplate from "./ItemTemplate";
 
-function AllItemsList() {
+function DeleteItemsList() {
   let history = useHistory();
   const [items, setItems] = useState([]);
 
@@ -20,7 +20,7 @@ function AllItemsList() {
 
   function showItem(item) {
     history.push({
-      pathname: "/item/update",
+      pathname: "/item/delete",
       state: {
         item: item,
       },
@@ -35,4 +35,4 @@ function AllItemsList() {
   );
 }
 
-export default AllItemsList;
+export default DeleteItemsList;

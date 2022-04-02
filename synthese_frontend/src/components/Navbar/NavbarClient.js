@@ -12,6 +12,19 @@ function NavbarClient() {
           className="nav-links-header"
           onClick={() => {
             history.push({
+              pathname: "/home",
+            });
+          }}
+        >
+          Accueil
+        </li>
+      </Nav.Link>
+
+      <Nav.Link>
+        <li
+          className="nav-links-header"
+          onClick={() => {
+            history.push({
               pathname: "/cart",
             });
           }}
@@ -30,19 +43,6 @@ function NavbarClient() {
           }}
         >
           Magasiner
-        </li>
-      </Nav.Link>
-
-      <Nav.Link>
-        <li
-          className="nav-links-header"
-          onClick={() => {
-            history.push({
-              pathname: "/home",
-            });
-          }}
-        >
-          Accueil
         </li>
       </Nav.Link>
 

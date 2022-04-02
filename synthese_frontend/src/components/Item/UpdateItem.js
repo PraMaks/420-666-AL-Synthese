@@ -18,14 +18,19 @@ const UpdateItem = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:9090/inventory/item/update/" + fields.product.productId + "/" + fields.itemAvailability + "/" + fields.itemCost)
+      .post(
+        `http://localhost:9090/inventory/item/update/${fields.product.productId}/${fields.itemAvailability}/${fields.itemCost}`
+      )
       .then((response) => {
-        history.push({
-          pathname: "/item/showAll",
-        });
+        setTimeout(() => {
+          history.push({
+            pathname: "/item/showAll",
+          });
+        }, 3000);
+        setErrorMessage("L'item est mis à jour. Vous allez être redirigé...");
       })
       .catch((error) => {
-        setErrorMessage();
+        setErrorMessage("Erreur! Veuillez réessayez!");
       });
   }
 
@@ -34,25 +39,11 @@ const UpdateItem = () => {
       <Row className="cont_central_signUp">
         <Col md="auto">
           <Container className="cont_title_form">
-            <h2>Ajout du nouveau produit</h2>
+            <h2>Mise à jour de l'item</h2>
           </Container>
           <Row>
             <Form onSubmit={(e) => onCreatePost(e)}>
               <Container className="cont_inputs">
-                <Form.Group controlId="productId">
-                  <Form.Label className="discret mb-0">
-                    ID du produit
-                  </Form.Label>
-                  <Form.Control
-                    value={item.product.productId}
-                    onChange={handleFieldChange}
-                    type="text"
-                    placeholder="Nom du produit"
-                    className="input_form"
-                    required
-                    disabled
-                  />
-                </Form.Group>
                 <Form.Group controlId="productName">
                   <Form.Label className="discret mb-0">
                     Nom du produit
@@ -67,6 +58,22 @@ const UpdateItem = () => {
                     disabled
                   />
                 </Form.Group>
+
+                <Form.Group controlId="productDescription">
+                  <Form.Label className="discret mb-0">
+                    Description du produit
+                  </Form.Label>
+                  <Form.Control
+                    value={item.product.productDescription}
+                    onChange={handleFieldChange}
+                    type="text"
+                    placeholder="Description du produit"
+                    className="input_form"
+                    required
+                    disabled
+                  />
+                </Form.Group>
+
                 <Form.Group controlId="productCompany">
                   <Form.Label className="discret mb-0">
                     Compagnie du produit
@@ -83,6 +90,9 @@ const UpdateItem = () => {
                 </Form.Group>
 
                 <Form.Group controlId="itemAvailability">
+                  <Form.Label className="discret mb-0">
+                    Quantité de l'item disponible
+                  </Form.Label>
                   <Form.Control
                     value={fields.itemAvailability}
                     onChange={handleFieldChange}
@@ -92,7 +102,11 @@ const UpdateItem = () => {
                     required
                   />
                 </Form.Group>
+
                 <Form.Group controlId="itemCost">
+                  <Form.Label className="discret mb-0">
+                    Prix de l'item (par unité) $
+                  </Form.Label>
                   <Form.Control
                     value={fields.itemCost}
                     onChange={handleFieldChange}
@@ -102,8 +116,18 @@ const UpdateItem = () => {
                     required
                   />
                 </Form.Group>
+
                 <Container className="cont_btn">
-                  <p>{errorMessage}</p>
+                  <p
+                    className="error_p"
+                    style={{
+                      color: errorMessage.startsWith("Erreur")
+                        ? "red"
+                        : "green",
+                    }}
+                  >
+                    {errorMessage}
+                  </p>
                   <button className="btn_submit">Confirmer</button>
                 </Container>
               </Container>

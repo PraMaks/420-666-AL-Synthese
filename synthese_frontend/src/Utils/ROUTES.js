@@ -10,6 +10,10 @@ import AllAvailableItemsList from '../components/Order/AllAvailableItemsList';
 import AddListingToOrder from '../components/Order/AddListingToOrder';
 import AllListingsList from '../components/Cart/AllListingsList';
 import ShowListing from '../components/Cart/ShowListing';
+import DeleteProduct from '../components/Product/DeleteProduct';
+import DeleteProductsList from '../components/Product/DeleteProductsList';
+import DeleteItemsList from '../components/Item/DeleteItemsList';
+import DeleteItem from '../components/Item/DeleteItem';
 
 import auth from '../services/Auth';
 
@@ -39,6 +43,18 @@ export const ROUTES = [
     },
 
     {
+        link : "/product/deleteShowAll",
+        component: DeleteProductsList,
+        accessValid: () => auth.loggedInManager()
+    },
+
+    {
+        link : "/product/delete",
+        component: DeleteProduct,
+        accessValid: () => auth.loggedInManager()
+    },
+
+    {
         link : "/item/selectProduct",
         component: SelectItemFromProductList,
         accessValid: () => auth.loggedInManager()
@@ -59,6 +75,18 @@ export const ROUTES = [
     {
         link : "/item/update",
         component: UpdateItem,
+        accessValid: () => auth.loggedInManager()
+    },
+
+    {
+        link : "/item/deleteShowAll",
+        component: DeleteItemsList,
+        accessValid: () => auth.loggedInManager()
+    },
+
+    {
+        link : "/item/delete",
+        component: DeleteItem,
         accessValid: () => auth.loggedInManager()
     },
 

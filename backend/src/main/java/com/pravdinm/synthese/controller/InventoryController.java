@@ -43,6 +43,11 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
+    @PostMapping("/inventory/product/delete/{productId}")
+    public Boolean deleteProduct(@PathVariable String productId){
+        return service.deleteProduct(productId);
+    }
+
     @PostMapping("/inventory/item/add/{productId}/{itemAvailability}/{itemCost}")
     public ResponseEntity<Item> addItem(@PathVariable String productId, @PathVariable int itemAvailability, @PathVariable float itemCost) {
         return service.addItem(productId, itemAvailability, itemCost)
@@ -69,6 +74,11 @@ public class InventoryController {
         return service.updateItem(productId, itemAvailability, itemCost)
                 .map(_item -> ResponseEntity.status(HttpStatus.CREATED).body(_item))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @PostMapping("/inventory/item/delete/{itemId}")
+    public Boolean deleteItem(@PathVariable String itemId){
+        return service.deleteItem(itemId);
     }
 
     @PostMapping("/inventory/listing/add/{itemId}/{listingAmount}/{userId}")

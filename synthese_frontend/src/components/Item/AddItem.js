@@ -27,13 +27,13 @@ const AddItem = () => {
       .then((response) => {
         setTimeout(() => {
           history.push({
-            pathname: "item/showAll",
+            pathname: "/item/showAll",
           });
         }, 3000);
-        setErrorMessage("Le item est rajouté. Vous allez être redirigé...")
+        setErrorMessage("L'item est rajouté. Vous allez être redirigé...")
       })
       .catch((error) => {
-        setErrorMessage();
+        setErrorMessage("Erreur! Veuillez réessayez!");
       });
   }
 
@@ -42,25 +42,11 @@ const AddItem = () => {
       <Row className="cont_central_signUp">
         <Col md="auto">
           <Container className="cont_title_form">
-            <h2>Ajout du nouveau produit</h2>
+            <h2>Ajout du nouveau item</h2>
           </Container>
           <Row>
             <Form onSubmit={(e) => onCreatePost(e)}>
               <Container className="cont_inputs">
-                <Form.Group controlId="productId">
-                  <Form.Label className="discret mb-0">
-                    ID du produit
-                  </Form.Label>
-                  <Form.Control
-                    value={product.productId}
-                    onChange={handleFieldChange}
-                    type="text"
-                    placeholder="Nom du produit"
-                    className="input_form"
-                    required
-                    disabled
-                  />
-                </Form.Group>
                 <Form.Group controlId="productName">
                   <Form.Label className="discret mb-0">
                     Nom du produit
@@ -75,6 +61,22 @@ const AddItem = () => {
                     disabled
                   />
                 </Form.Group>
+                
+                <Form.Group controlId="productDescription">
+                  <Form.Label className="discret mb-0">
+                    Description du produit
+                  </Form.Label>
+                  <Form.Control
+                    value={product.productDescription}
+                    onChange={handleFieldChange}
+                    type="text"
+                    placeholder="Nom du produit"
+                    className="input_form"
+                    required
+                    disabled
+                  />
+                </Form.Group>
+
                 <Form.Group controlId="productCompany">
                   <Form.Label className="discret mb-0">
                     Compagnie du produit
@@ -91,27 +93,43 @@ const AddItem = () => {
                 </Form.Group>
 
                 <Form.Group controlId="itemAvailability">
+                  <Form.Label className="discret mb-0">
+                    Quantité de l'item disponible
+                  </Form.Label>
                   <Form.Control
                     value={fields.itemAvailability}
                     onChange={handleFieldChange}
                     type="number"
-                    placeholder="Description du produit"
+                    placeholder="Disponibilité du produit"
                     className="input_form"
                     required
                   />
                 </Form.Group>
+
                 <Form.Group controlId="itemCost">
+                  <Form.Label className="discret mb-0">
+                    Prix de l'item (par unité) $
+                  </Form.Label>
                   <Form.Control
                     value={fields.itemCost}
                     onChange={handleFieldChange}
                     type="number"
-                    placeholder="Compagnie du produit"
+                    placeholder="Prix du produit"
                     className="input_form"
                     required
                   />
                 </Form.Group>
                 <Container className="cont_btn">
-                  <p>{errorMessage}</p>
+                <p
+                    className="error_p"
+                    style={{
+                      color: errorMessage.startsWith("Erreur")
+                        ? "red"
+                        : "green",
+                    }}
+                  >
+                    {errorMessage}
+                  </p>
                   <button className="btn_submit">Confirmer</button>
                 </Container>
               </Container>

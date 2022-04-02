@@ -48,6 +48,19 @@ function NavbarManager() {
               Modifier un produit
             </button>
           </li>
+
+          <li>
+            <button
+              className="menu-item-button menu-item-button-selected"
+              onClick={() => {
+                history.push({
+                  pathname: "/product/deleteShowAll",
+                });
+              }}
+            >
+              Supprimer un produit
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -77,6 +90,19 @@ function NavbarManager() {
               }}
             >
               Modifier un item
+            </button>
+          </li>
+
+          <li>
+            <button
+              className="menu-item-button menu-item-button-selected"
+              onClick={() => {
+                history.push({
+                  pathname: "/item/deleteShowAll",
+                });
+              }}
+            >
+              Supprimer un item
             </button>
           </li>
         </ul>
