@@ -10,8 +10,9 @@ function AllListingsList() {
 
   useEffect(() => {
     let user = auth.user;
+
     axios
-      .get("http://localhost:9090/inventory/listing/getList/" + user.userId)
+      .get(`http://localhost:9090/inventory/listing/getList/${user.userId}`)
       .then((response) => {
         setListings(response.data);
       })
@@ -27,14 +28,15 @@ function AllListingsList() {
         listing: listing,
       },
     });
-    console.log(listing);
   }
 
   return (
-    <ListingTemplate
-      listings={listings}
-      onClick={showListing}
-    />
+    <>
+      <ListingTemplate
+        listings={listings}
+        onClick={showListing}
+      />
+    </>
   );
 }
 

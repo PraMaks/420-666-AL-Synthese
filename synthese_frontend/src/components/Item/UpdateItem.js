@@ -17,6 +17,15 @@ const UpdateItem = () => {
   function onCreatePost(e) {
     e.preventDefault();
 
+    if(fields.itemAvailability <= 0){
+      setErrorMessage("Erreur! Il doit avoir au moins 1 item");
+      return;
+    }
+    if(fields.itemCost <= 0){
+      setErrorMessage("Erreur! L'item doit avoir une valeur supérieure à 0");
+      return;
+    }
+
     axios
       .post(
         `http://localhost:9090/inventory/item/update/${fields.product.productId}/${fields.itemAvailability}/${fields.itemCost}`
@@ -97,7 +106,7 @@ const UpdateItem = () => {
                     value={fields.itemAvailability}
                     onChange={handleFieldChange}
                     type="number"
-                    placeholder="Description du produit"
+                    placeholder="Quantité de l'item disponible"
                     className="input_form"
                     required
                   />
@@ -111,7 +120,7 @@ const UpdateItem = () => {
                     value={fields.itemCost}
                     onChange={handleFieldChange}
                     type="number"
-                    placeholder="Compagnie du produit"
+                    placeholder="Prix de l'item (par unité) $"
                     className="input_form"
                     required
                   />

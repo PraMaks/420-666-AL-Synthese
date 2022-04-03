@@ -20,6 +20,15 @@ const AddItem = () => {
   function onCreatePost(e) {
     e.preventDefault();
 
+    if(fields.itemAvailability <= 0){
+      setErrorMessage("Erreur! Il doit avoir au moins 1 item");
+      return;
+    }
+    if(fields.itemCost <= 0){
+      setErrorMessage("Erreur! L'item doit avoir une valeur supérieure à 0");
+      return;
+    }
+
     axios
       .post(
         `http://localhost:9090/inventory/item/add/${product.productId}/${fields.itemAvailability}/${fields.itemCost}`

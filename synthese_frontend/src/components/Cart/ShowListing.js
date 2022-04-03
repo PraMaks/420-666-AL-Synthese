@@ -5,8 +5,10 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
 import DeleteListingFromCart from "./DeleteListingFromCart";
+import auth from "../../services/Auth";
 
 const ShowListing = () => {
+  let user = auth.user;
   let history = useHistory();
   let state = history.location.state;
   let listing = state.listing;
@@ -18,16 +20,23 @@ const ShowListing = () => {
   function onCreatePost(e) {
     e.preventDefault();
 
-    /*axios
-      .post("http://localhost:9090/inventory/item/update/" + fields.product.productId + "/" + fields.itemAvailability + "/" + fields.itemCost)
+    axios
+      .post(
+        `http://localhost:9090/inventory/listing/update/${listing.listingId}/${fields.listingAmount}/${user.userId}`
+      )
       .then((response) => {
-        history.push({
-          pathname: "/item/showAll",
-        });
+        setTimeout(() => {
+          history.push({
+            pathname: "/cart",
+          });
+        }, 3000);
+        setErrorMessage(
+          "L'item est mis à jour dans le panier. Vous allez être redirigé..."
+        );
       })
       .catch((error) => {
-        setErrorMessage();
-      });*/
+        setErrorMessage("Erreur! Veuillez réessayez!");
+      });
   }
 
   return (
@@ -84,13 +93,30 @@ const ShowListing = () => {
                     disabled
                   />
                 </Form.Group>
-                
+
                 <Form.Group controlId="listingAmount">
+                  <Form.Label className="discret mb-0">
+                    Quantité de l'item dans le panier
+                  </Form.Label>
                   <Form.Control
-                    value={listing.listingAmount}
+                    value={fields.listingAmount}
                     onChange={handleFieldChange}
                     type="number"
-                    placeholder="Quantité du produit à ajouter"
+                    placeholder={listing.listingAmount}
+                    className="input_form"
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="listingPrice">
+                  <Form.Label className="discret mb-0">
+                    Prix de l'item (par unité) $
+                  </Form.Label>
+                  <Form.Control
+                    value={listing.item.itemCost}
+                    onChange={handleFieldChange}
+                    type="number"
+                    placeholder="Prix du produit"
                     className="input_form"
                     required
                     disabled
@@ -98,21 +124,33 @@ const ShowListing = () => {
                 </Form.Group>
 
                 <Form.Group controlId="listingPrice">
+                  <Form.Label className="discret mb-0">
+                    Prix de l'item total (avant la mise à jour) $
+                  </Form.Label>
                   <Form.Control
                     value={listing.listingPrice}
                     onChange={handleFieldChange}
                     type="number"
-                    placeholder="Quantité du produit à ajouter"
+                    placeholder="Prix du produit"
                     className="input_form"
                     required
                     disabled
                   />
                 </Form.Group>
-                
+
                 <Container className="cont_btn">
-                  <p>{errorMessage}</p>
-                  <button className="btn_submit">Confirmer</button>
-                  <DeleteListingFromCart listingId={listing.listingId}/>
+                  <p
+                    className="error_p"
+                    style={{
+                      color: errorMessage.startsWith("Erreur")
+                        ? "red"
+                        : "green",
+                    }}
+                  >
+                    {errorMessage}
+                  </p>
+                  <button className="btn_submit">Mettre à jour</button>
+                  <DeleteListingFromCart listingId={listing.listingId} />
                 </Container>
               </Container>
             </Form>

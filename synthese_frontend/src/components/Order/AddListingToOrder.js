@@ -24,22 +24,25 @@ const AddListingToOrder = () => {
   function onCreatePost(e) {
     e.preventDefault();
 
+    if (addToCartQty.qty <= 0) {
+      setErrorMessage("Erreur! Il doit avoir au moins 1 item");
+      return;
+    }
+
     axios
       .post(
-        "http://localhost:9090/inventory/listing/add/" +
-          fields.itemId +
-          "/" +
-          addToCartQty.qty +
-          "/" +
-          user.userId
+        `http://localhost:9090/inventory/listing/add/${fields.itemId}/${addToCartQty.qty}/${user.userId}`
       )
       .then((response) => {
-        history.push({
-          pathname: "/shop",
-        });
+        setTimeout(() => {
+          history.push({
+            pathname: "/shop",
+          });
+        }, 3000);
+        setErrorMessage("L'item est rajouté au panier. Vous allez être redirigé...");
       })
       .catch((error) => {
-        setErrorMessage();
+        setErrorMessage("Erreur! Veuillez réessayez!");
       });
   }
 
@@ -110,7 +113,16 @@ const AddListingToOrder = () => {
                   />
                 </Form.Group>
                 <Container className="cont_btn">
-                  <p>{errorMessage}</p>
+                  <p
+                    className="error_p"
+                    style={{
+                      color: errorMessage.startsWith("Erreur")
+                        ? "red"
+                        : "green",
+                    }}
+                  >
+                    {errorMessage}
+                  </p>
                   <button className="btn_submit">Ajouter au panier</button>
                 </Container>
               </Container>

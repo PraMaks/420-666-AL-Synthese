@@ -109,6 +109,12 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
+    @PostMapping("/inventory/listing/update/{listingId}/{listingAmount}/{userId}")
+    public ResponseEntity<Listing> updateListing(@PathVariable String listingId, @PathVariable int listingAmount, @PathVariable String userId) {
+        return service.updateListing(listingId, listingAmount, userId)
+                .map(_listing -> ResponseEntity.status(HttpStatus.CREATED).body(_listing))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
 
     @PostMapping("/inventory/order/add")
     public ResponseEntity<Order> addOrder(@RequestBody Order order) {

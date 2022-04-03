@@ -189,6 +189,20 @@ public class InventoryService {
         return Optional.empty();
     }
 
+    public Optional<Listing> updateListing(String listingId, int listingAmount, String userId) {
+        Optional<Listing> optionalListing = listingRepository.findById(listingId);
+        if(optionalListing.isPresent()) {
+            Listing listing = optionalListing.get();
+            Item itemFromListing = listing.getItem();
+
+            deleteListingFromClient(userId, listingId);
+
+            Optional<Listing> optionalListingUpdated = addListing(itemFromListing.getItemId(), listingAmount, userId);
+            return optionalListingUpdated;
+        }
+        return Optional.empty();
+    }
+
     public Optional<Client> deleteListingFromClient(String userId, String listingId) {
         Optional<Client> optionalClient = clientRepository.findById(userId);
         Optional<Listing> optionalListing = listingRepository.findById(listingId);

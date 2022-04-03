@@ -3,6 +3,7 @@ import "../../styles/List.css";
 import { Container } from "react-bootstrap";
 import Listing from "./Listing";
 import NoListings from "./NoListings";
+import ButtonToCheckout from "./ButtonToCheckout";
 
 function ListingTemplate({ listings, onClick }) {
   if (listings.length >= 1) {
@@ -24,6 +25,7 @@ function ListingTemplate({ listings, onClick }) {
               ))}
             </ul>
           </Container>
+          <ButtonToCheckout />
         </Container>
       </Container>
     );
