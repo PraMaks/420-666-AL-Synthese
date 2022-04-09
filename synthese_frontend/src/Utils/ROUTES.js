@@ -15,6 +15,8 @@ import DeleteProductsList from '../components/Product/DeleteProductsList';
 import DeleteItemsList from '../components/Item/DeleteItemsList';
 import DeleteItem from '../components/Item/DeleteItem';
 import CheckoutList from '../components/Checkout/CheckoutList';
+import AllOrdersList from '../components/Order/AllOrdersList';
+import ShowOrder from '../components/Order/ShowOrder';
 
 import auth from '../services/Auth';
 
@@ -118,6 +120,18 @@ export const ROUTES = [
     {
         link : "/cart/checkout",
         component: CheckoutList,
+        accessValid: () => auth.loggedIn() 
+    },
+
+    {
+        link : "/order/showAll",
+        component: AllOrdersList,
+        accessValid: () => auth.loggedIn() 
+    },
+
+    {
+        link : "/order/view",
+        component: ShowOrder,
         accessValid: () => auth.loggedIn() 
     },
     

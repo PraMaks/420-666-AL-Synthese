@@ -25,7 +25,6 @@ function AllAvailableItemsList() {
         item: item,
       },
     });
-    console.log(item);
   }
 
   return (

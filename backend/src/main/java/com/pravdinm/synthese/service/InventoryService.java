@@ -9,6 +9,7 @@ import com.pravdinm.synthese.repository.*;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -237,31 +238,33 @@ public class InventoryService {
         itemRepository.save(item);
     }
 
-    public Optional<Order> addOrder(Order order) {
+    public Optional<Order> addOrder(Order order, String userId) {
         Optional<Order> optionalOrder = Optional.empty();
-        try {
-            for(String listingId : order.getListingIdList()){
-                if(listingRepository.findById(listingId).isEmpty()){
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+
+        if(optionalClient.isPresent()){
+            for(Listing listing : order.getListingList()){
+                if(listingRepository.findById(listing.getListingId()).isEmpty())
                     return Optional.empty();
-                }
             }
             optionalOrder = Optional.of(order);
             Order orderToSave = optionalOrder.get();
-
-            orderToSave.setOrderInfo(archiveOrderInfo(orderToSave.getListingIdList()));
-
+            orderToSave.setOrderInfo(archiveOrderInfo(orderToSave.getListingList(), order.getCost()));
             orderRepository.save(optionalOrder.get());
-        } catch (DuplicateKeyException exception) {
-            exception.printStackTrace();
+
+            Client client = optionalClient.get();
+            client.getOrderList().add(orderToSave);
+            client.getListingList().clear();
+            clientRepository.save(client);
         }
         return optionalOrder;
     }
 
-    private String archiveOrderInfo(List<String> listingIdList){
-        String orderInfo = "The order was made " + getCurrentFormattedDate() + " contains listings of : ";
+    private String archiveOrderInfo(List<Listing> listingList, float cost){
+        DecimalFormat decimalFormat = new DecimalFormat("##.00");
+        String orderInfo = "The order with a total cost of " + decimalFormat.format(cost) + "$ was made " + getCurrentFormattedDate() + " contains listings of : ";
         int listingCounter = 1;
-        for(String listingId : listingIdList){
-            Listing listing = listingRepository.findById(listingId).get();
+        for(Listing listing : listingList){
             orderInfo += listingCounter + ") " + archiveItemInfo(listing.getItem()) + " with a price of $" + listing.getListingPrice() + ". The listing's amount is " + listing.getListingAmount();
             listingCounter++;
         }
@@ -270,6 +273,15 @@ public class InventoryService {
 
     public Optional<Order> getOrder(String orderId) {
         return orderRepository.findById(orderId);
+    }
+
+    public Optional<List<Order>> getOrdersFromClient(String userId) {
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+        if(optionalClient.isPresent()){
+            Client client = optionalClient.get();
+            return Optional.of(client.getOrderList());
+        }
+        return Optional.empty();
     }
 
     public Optional<List<Item>> getAllAvailableItems() {

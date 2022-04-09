@@ -50,6 +50,19 @@ function NavbarClient() {
         <li
           className="nav-links-header"
           onClick={() => {
+            history.push({
+              pathname: "/order/showAll",
+            });
+          }}
+        >
+          Voir les commandes
+        </li>
+      </Nav.Link>
+
+      <Nav.Link>
+        <li
+          className="nav-links-header"
+          onClick={() => {
             auth.logout(() => {
               history.push("/");
             });

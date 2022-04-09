@@ -116,9 +116,9 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
-    @PostMapping("/inventory/order/add")
-    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
-        return service.addOrder(order)
+    @PostMapping("/inventory/order/add/{userId}")
+    public ResponseEntity<Order> addOrder(@RequestBody Order order, @PathVariable String userId) {
+        return service.addOrder(order, userId)
                 .map(_order -> ResponseEntity.status(HttpStatus.CREATED).body(_order))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
@@ -127,6 +127,13 @@ public class InventoryController {
     public ResponseEntity<Order> getOrder(@PathVariable String orderId) {
         return service.getOrder(orderId)
                 .map(_order -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_order))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/inventory/order/getList/{userId}")
+    public ResponseEntity<List<Order>> getOrdersFromClient(@PathVariable String userId) {
+        return service.getOrdersFromClient(userId)
+                .map(_orders -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_orders))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 

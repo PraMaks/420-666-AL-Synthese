@@ -2,7 +2,6 @@ import { Card } from "react-bootstrap";
 
 const UserInfo = ({ user }) => {
 
-    console.log(user.managerTitle)
   return (
     <>
       <Card.Body>

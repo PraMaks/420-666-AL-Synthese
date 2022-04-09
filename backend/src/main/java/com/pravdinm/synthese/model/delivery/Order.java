@@ -3,7 +3,6 @@ package com.pravdinm.synthese.model.delivery;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -20,7 +19,7 @@ public class Order {
     private String orderId;
 
     @Builder.Default
-    private List<String> listingIdList = new ArrayList<>();
+    private List<Listing> listingList = new ArrayList<>();
 
     @Field
     private String address;
@@ -29,11 +28,14 @@ public class Order {
     private String city;
 
     @Field
+    private float cost;
+
+    @Field
     private String orderInfo;
 
     public Order() {
         super();
-        this.listingIdList = new ArrayList<>();
+        this.listingList = new ArrayList<>();
     }
 
 }

@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import auth from "../../services/Auth";
 import { useHistory } from "react-router";
-import { Container } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import CheckoutListing from "./CheckoutListing";
+import { useFormFields } from "../../lib/hooksLib";
 
 function CheckoutList() {
   let history = useHistory();
@@ -19,12 +20,43 @@ function CheckoutList() {
         setCheckoutListings(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMessage("Erreur de recuperation du panier!");
       });
   }, []);
 
   for (const checkoutListing of checkoutListings) {
     coutTotal += checkoutListing.listingPrice;
+  }
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [fields, handleFieldChange] = useFormFields({
+    listingList: "",
+    address: "",
+    city: "",
+    cost: -1,
+  });
+
+  function proceedWithOrder(e) {
+    e.preventDefault();
+    fields.listingList = checkoutListings;
+    fields.cost = coutTotal;
+    console.log(fields);
+    axios
+      .post(
+        `http://localhost:9090/inventory/order/add/${auth.user.userId}`, fields
+      )
+      .then((response) => {
+        setTimeout(() => {
+          history.push({
+            pathname: "/home",
+          });
+        }, 3000);
+        setErrorMessage("Votre commande a été enregistré. Vous allez être redirigé...");
+      })
+      .catch((error) => {
+        setErrorMessage("Erreur! Veuillez réessayez!");
+      });
   }
 
   return (
@@ -43,8 +75,48 @@ function CheckoutList() {
               ))}
             </ul>
           </Container>
+          <hr />
+          <Form onSubmit={(e) => proceedWithOrder(e)}>
+            <Container className="cont_inputs">
+              <Form.Group controlId="address">
+                <Form.Label className="discret mb-0"><h3>Adresse</h3></Form.Label>
+                <Form.Control
+                  value={fields.address}
+                  onChange={handleFieldChange}
+                  type="text"
+                  placeholder="Addresse"
+                  className="input_form"
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group controlId="city">
+                <Form.Label className="discret mb-0"><h3>Ville</h3></Form.Label>
+                <Form.Control
+                  value={fields.city}
+                  onChange={handleFieldChange}
+                  type="text"
+                  placeholder="Ville"
+                  className="input_form"
+                  required
+                />
+              </Form.Group>
+
+              <Container className="cont_btn">
+                <p
+                  className="error_p"
+                  style={{
+                    color: errorMessage.startsWith("Erreur") ? "red" : "green",
+                  }}
+                >
+                  {errorMessage}
+                </p>
+                <button className="btn_checkout">Confirmer</button>
+              </Container>
+            </Container>
+          </Form>
           <h2 className="cont_title_form mb-3 mt-3">
-            Cout total: {coutTotal} $
+            Coût total: {coutTotal} $
           </h2>
         </Container>
       </Container>
