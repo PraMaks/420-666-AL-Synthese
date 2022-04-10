@@ -144,4 +144,18 @@ public class InventoryController {
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
+    @GetMapping("/inventory/order/getAllUnaccepted")
+    public ResponseEntity<List<Order>> getAllUnacceptedOrders(){
+        return service.getAllUnacceptedOrders()
+                .map(_orders -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_orders))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @PostMapping("/inventory/order/acceptOrder/{orderId}")
+    public ResponseEntity<Order> acceptOrder(@PathVariable String orderId) {
+        return service.acceptOrder(orderId)
+                .map(_order -> ResponseEntity.status(HttpStatus.CREATED).body(_order))
+                .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
 }

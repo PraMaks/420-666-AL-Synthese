@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -249,15 +250,23 @@ public class InventoryService {
             }
             optionalOrder = Optional.of(order);
             Order orderToSave = optionalOrder.get();
+            orderToSave.setClient(optionalClient.get());
+            orderToSave.setShippingDate(calculateShippingDate(14));
             orderToSave.setOrderInfo(archiveOrderInfo(orderToSave.getListingList(), order.getCost()));
             orderRepository.save(optionalOrder.get());
 
             Client client = optionalClient.get();
-            client.getOrderList().add(orderToSave);
             client.getListingList().clear();
             clientRepository.save(client);
         }
         return optionalOrder;
+    }
+
+    private Date calculateShippingDate(int noOfDays){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, noOfDays);
+        Date date = cal.getTime();
+        return date;
     }
 
     private String archiveOrderInfo(List<Listing> listingList, float cost){
@@ -279,7 +288,8 @@ public class InventoryService {
         Optional<Client> optionalClient = clientRepository.findById(userId);
         if(optionalClient.isPresent()){
             Client client = optionalClient.get();
-            return Optional.of(client.getOrderList());
+            List<Order> orders = orderRepository.findAllByClient(client);
+            return Optional.of(orders);
         }
         return Optional.empty();
     }
@@ -288,4 +298,21 @@ public class InventoryService {
         List<Item> items = itemRepository.findByItemAvailabilityGreaterThan(0).get();
         return items.isEmpty() ? Optional.empty() : Optional.of(items);
     }
+
+    public Optional<List<Order>> getAllUnacceptedOrders() {
+        List<Order> orders = orderRepository.findAllByIsAcceptedFalse();
+        return orders.isEmpty() ? Optional.empty() : Optional.of(orders);
+    }
+
+    public Optional<Order> acceptOrder(String orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()){
+            Order order = optionalOrder.get();
+            order.setIsAccepted(true);
+            orderRepository.save(order);
+            return Optional.of(order);
+        }
+        return Optional.empty();
+    }
+
 }

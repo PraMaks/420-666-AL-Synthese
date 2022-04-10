@@ -112,6 +112,19 @@ function NavbarManager() {
         <li
           className="nav-links-header"
           onClick={() => {
+            history.push({
+              pathname: "/order/showAllUnaccepted",
+            });
+          }}
+        >
+          Confimer des commandes
+        </li>
+      </Nav.Link>
+
+      <Nav.Link>
+        <li
+          className="nav-links-header"
+          onClick={() => {
             auth.logout(() => {
               history.push("/");
             });

@@ -17,6 +17,8 @@ import DeleteItem from '../components/Item/DeleteItem';
 import CheckoutList from '../components/Checkout/CheckoutList';
 import AllOrdersList from '../components/Order/AllOrdersList';
 import ShowOrder from '../components/Order/ShowOrder';
+import AllUnacceptedOrders from '../components/Order/AllUnacceptedOrders';
+import AcceptOrder from '../components/Order/AcceptOrder';
 
 import auth from '../services/Auth';
 
@@ -133,6 +135,18 @@ export const ROUTES = [
         link : "/order/view",
         component: ShowOrder,
         accessValid: () => auth.loggedIn() 
+    },
+
+    {
+        link : "/order/showAllUnaccepted",
+        component: AllUnacceptedOrders,
+        accessValid: () => auth.loggedInManager() 
+    },
+
+    {
+        link : "/order/accept",
+        component: AcceptOrder,
+        accessValid: () => auth.loggedInManager() 
     },
     
 ]

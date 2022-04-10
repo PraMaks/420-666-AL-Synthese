@@ -41,7 +41,7 @@ function CheckoutList() {
     e.preventDefault();
     fields.listingList = checkoutListings;
     fields.cost = coutTotal;
-    console.log(fields);
+    
     axios
       .post(
         `http://localhost:9090/inventory/order/add/${auth.user.userId}`, fields
@@ -101,6 +101,8 @@ function CheckoutList() {
                   required
                 />
               </Form.Group>
+
+              <h3 className="discret mb-0">La commande va être livrée dans 2 semaines</h3>
 
               <Container className="cont_btn">
                 <p
