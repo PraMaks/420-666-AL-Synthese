@@ -21,130 +21,131 @@ import AllUnacceptedOrders from '../components/Order/AllUnacceptedOrders';
 import AcceptOrder from '../components/Order/AcceptOrder';
 
 import auth from '../services/Auth';
+import { URL_ADD_ITEM, URL_ADD_PRODUCT, URL_ALL_ITEMS_LIST, URL_ALL_ORDERS, URL_ALL_PRODUCTS_LIST, URL_ALL_UNACCEPTED_ORDERS, URL_CART, URL_CART_SHOW_LISTING, URL_CHECKOUT, URL_DELETE_ITEM, URL_DELETE_ITEM_LIST, URL_DELETE_PRODUCT, URL_DELETE_PRODUCT_LIST, URL_HOME, URL_ORDER, URL_ORDER_ACCEPT, URL_SELECT_PRODUCT_LIST, URL_SHOP, URL_SHOP_ADD_T0_CART, URL_UPDATE_ITEM, URL_UPDATE_PRODUCT } from './URL';
 
 export const ROUTES = [
     {
-        link : "/home/:username",
+        link : URL_HOME,
         component: Home,
         accessValid: () => auth.loggedIn() || auth.loggedInManager()
     },
 
     {
-        link : "/product/add",
+        link : URL_ADD_PRODUCT,
         component: AddProduct,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/product/showAll",
+        link : URL_ALL_PRODUCTS_LIST,
         component: AllProductsList,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/product/update",
+        link : URL_UPDATE_PRODUCT,
         component: UpdateProduct,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/product/deleteShowAll",
+        link : URL_DELETE_PRODUCT_LIST,
         component: DeleteProductsList,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/product/delete",
+        link : URL_DELETE_PRODUCT,
         component: DeleteProduct,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/item/selectProduct",
+        link : URL_SELECT_PRODUCT_LIST,
         component: SelectItemFromProductList,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/item/add",
+        link : URL_ADD_ITEM,
         component: AddItem,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/item/showAll",
+        link : URL_ALL_ITEMS_LIST,
         component: AllItemsList,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/item/update",
+        link : URL_UPDATE_ITEM,
         component: UpdateItem,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/item/deleteShowAll",
+        link : URL_DELETE_ITEM_LIST,
         component: DeleteItemsList,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/item/delete",
+        link : URL_DELETE_ITEM,
         component: DeleteItem,
         accessValid: () => auth.loggedInManager()
     },
 
     {
-        link : "/shop",
+        link : URL_SHOP,
         component: AllAvailableItemsList,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/shop/add",
+        link : URL_SHOP_ADD_T0_CART,
         component: AddListingToOrder,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/cart",
+        link : URL_CART,
         component: AllListingsList,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/cart/view",
+        link : URL_CART_SHOW_LISTING,
         component: ShowListing,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/cart/checkout",
+        link : URL_CHECKOUT,
         component: CheckoutList,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/order/showAll",
+        link : URL_ALL_ORDERS,
         component: AllOrdersList,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/order/view",
+        link : URL_ORDER,
         component: ShowOrder,
         accessValid: () => auth.loggedIn() 
     },
 
     {
-        link : "/order/showAllUnaccepted",
+        link : URL_ALL_UNACCEPTED_ORDERS,
         component: AllUnacceptedOrders,
         accessValid: () => auth.loggedInManager() 
     },
 
     {
-        link : "/order/accept",
+        link : URL_ORDER_ACCEPT,
         component: AcceptOrder,
         accessValid: () => auth.loggedInManager() 
     },

@@ -37,7 +37,7 @@ const AcceptOrder = () => {
   return (
     <Container className="cont_principal">
       <Container className="cont_list_centrar">
-        <h2 className="cont_title_form mb-3 mt-3">La facture de la commadne</h2>
+        <h2 className="cont_title_form mb-3 mt-3">La facture de la commande</h2>
         <h2 className="cont_title_form mb-3 mt-3">Coût total: {coutTotal} $</h2>
         <Container className="cont_list">
           <p className="cont_title_form"></p>

@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.pravdinm.synthese.utils.UtilsUrl.*;
+import static com.pravdinm.synthese.utils.UtilsUrl.AuthControllerUrl.*;
+
 @RestController
-@CrossOrigin("http://localhost:3006")
+@CrossOrigin(CROSS_ORIGIN_ALLOWED)
 public class AuthController {
 
     private final AuthService service;
@@ -17,32 +20,21 @@ public class AuthController {
         this.service = service;
     }
 
-    /*
-    {
-    "username": "test3",
-    "password": "12345",
-    "firstName": "firstName",
-    "lastName": "lastName",
-    "weeklyWorkTime": 3,
-    "email": "email",
-    "preferences": "TECHNOLOGIE"
-    }
-     */
-    @PostMapping("/signUp/client")
+    @PostMapping(URL_SIGN_UP_CLIENT)
     public ResponseEntity<Client> signUpClient(@RequestBody Client client) {
         return service.signUp(client)
                 .map(_client -> ResponseEntity.status(HttpStatus.CREATED).body(_client))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
-    @GetMapping("/login/client/{username}/{password}")
+    @GetMapping(URL_LOGIN_CLIENT)
     public ResponseEntity<Client> loginClient(@PathVariable String username, @PathVariable String password) {
         return service.loginClient(username, password)
                 .map(_client -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_client))
                 .orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
-    @GetMapping("/login/manager/{username}/{password}")
+    @GetMapping(URL_LOGIN_MANAGER)
     public ResponseEntity<Manager> loginManager(@PathVariable String username, @PathVariable String password) {
         return service.loginManager(username, password)
                 .map(_manager -> ResponseEntity.status(HttpStatus.ACCEPTED).body(_manager))

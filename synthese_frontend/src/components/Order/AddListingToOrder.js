@@ -103,6 +103,9 @@ const AddListingToOrder = () => {
                 </Form.Group>
 
                 <Form.Group controlId="qty">
+                  <Form.Label className="discret mb-0">
+                    Quantité du produit
+                  </Form.Label>
                   <Form.Control
                     value={addToCartQty.qty}
                     onChange={setAddToCartQty}

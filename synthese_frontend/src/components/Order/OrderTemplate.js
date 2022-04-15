@@ -3,8 +3,12 @@ import "../../styles/List.css";
 import { Container } from "react-bootstrap";
 import Order from "./Order";
 import NoOrders from "./NoOrders";
+import NoOrdersToConfirm from "./NoOrdersToConfirm";
+import { useLocation } from 'react-router-dom';
 
 function OrderTemplate({ orders, onClick }) {
+  const location = useLocation()
+
   if (orders.length >= 1) {
     return (
       <Container className="cont_principal">
@@ -28,7 +32,10 @@ function OrderTemplate({ orders, onClick }) {
       </Container>
     );
   } else {
-    return <NoOrders />;
+    if(location.pathname === "/order/showAllUnaccepted")
+      return <NoOrdersToConfirm />;
+    else 
+      return <NoOrders />;
   }
 }
 
