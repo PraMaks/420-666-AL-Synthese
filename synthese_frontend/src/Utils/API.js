@@ -1,1 +1,1 @@
-const URL_BACKEND = "http://localhost:3006/";
+const URL_BACKEND = "http://localhost:3006/"; 

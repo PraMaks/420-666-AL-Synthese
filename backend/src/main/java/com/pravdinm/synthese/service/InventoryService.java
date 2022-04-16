@@ -7,8 +7,12 @@ import com.pravdinm.synthese.model.delivery.Product;
 import com.pravdinm.synthese.model.user.Client;
 import com.pravdinm.synthese.repository.*;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,6 +23,7 @@ import java.util.Optional;
 @Service
 public class InventoryService {
 
+    private final JavaMailSender mailSender;
     private final ProductRepository productRepository;
     private final ItemRepository itemRepository;
     private final ListingRepository listingRepository;
@@ -29,12 +34,14 @@ public class InventoryService {
                      ItemRepository itemRepository,
                      ListingRepository listingRepository,
                      OrderRepository orderRepository,
-                     ClientRepository clientRepository) {
+                     ClientRepository clientRepository,
+                     JavaMailSender mailSender) {
         this.productRepository = productRepository;
         this.itemRepository = itemRepository;
         this.listingRepository = listingRepository;
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
+        this.mailSender = mailSender;
     }
 
     public Optional<Product> addProduct(Product product) {
@@ -310,9 +317,41 @@ public class InventoryService {
             Order order = optionalOrder.get();
             order.setIsAccepted(true);
             orderRepository.save(order);
+
+            createEmailForOrderConfirmation(order);
             return Optional.of(order);
         }
         return Optional.empty();
+    }
+
+    private void createEmailForOrderConfirmation(Order order){
+        Client client = order.getClient();
+        try{
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.addTo(client.getEmail());
+            helper.setSubject("Confirmation de la commande");
+            helper.setText(generateOrderInfoEmail(order));
+            mailSender.send(message);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private String generateOrderInfoEmail(Order order){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String strDate = formatter.format(order.getShippingDate());
+
+        String start = "Votre commande à été confirmée et sera livrée : " + strDate;
+        String middle = "\n Elle contiendra : ";
+
+        for(Listing listing : order.getListingList()){
+            middle += "\n " + listing.getListingAmount() + " " + listing.getItem().getProduct().getProductName() + " : $" + listing.getListingPrice();
+        }
+        String body = start + middle;
+        return body;
     }
 
 }
