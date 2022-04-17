@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import OrderTemplate from "./OrderTemplate";
+import { ORDER_ALL_UNACCEPTED } from "../../Utils/API";
 
 function AllUnacceptedOrders() {
   let history = useHistory();
@@ -9,7 +10,7 @@ function AllUnacceptedOrders() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:9090/inventory/order/getAllUnaccepted`)
+      .get(ORDER_ALL_UNACCEPTED)
       .then((response) => {
         setOrders(response.data);
       })

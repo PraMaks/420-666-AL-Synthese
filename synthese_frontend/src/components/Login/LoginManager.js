@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useFormFields } from "../../lib/hooksLib";
 import { useHistory } from "react-router-dom";
 import { Container, Form } from "react-bootstrap";
+import { LOGIN_MANAGER } from "../../Utils/API";
+import { ERROR_LOGIN } from "../../Utils/ERRORS_UTILS";
 
 const LoginManager = () => {
   let history = useHistory();
@@ -21,7 +23,7 @@ const LoginManager = () => {
 
     axios
       .get(
-        `http://localhost:9090/login/manager/${fields.username}/${fields.password}`
+        LOGIN_MANAGER + `${fields.username}/${fields.password}`
       )
       .then((response) => {
         console.log(response.data);
@@ -34,7 +36,7 @@ const LoginManager = () => {
       })
       .catch((error) => {
         setErrorMessage(
-          "Le nom d'utilisateur ou le mot de passe est incorrect."
+          ERROR_LOGIN
         );
       });
   }

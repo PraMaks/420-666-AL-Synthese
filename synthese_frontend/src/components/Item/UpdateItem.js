@@ -4,6 +4,9 @@ import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
+import { ITEM_UPDATE } from "../../Utils/API";
+import { ERROR_CONNECT, ERROR_ITEM_COST, ERROR_ITEM_QTY } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_UPDATE_ITEM } from "../../Utils/ACCEPT_UTILS";
 
 const UpdateItem = () => {
   let history = useHistory();
@@ -18,17 +21,17 @@ const UpdateItem = () => {
     e.preventDefault();
 
     if(fields.itemAvailability <= 0){
-      setErrorMessage("Erreur! Il doit avoir au moins 1 item");
+      setErrorMessage(ERROR_ITEM_QTY);
       return;
     }
     if(fields.itemCost <= 0){
-      setErrorMessage("Erreur! L'item doit avoir une valeur supérieure à 0");
+      setErrorMessage(ERROR_ITEM_COST);
       return;
     }
 
     axios
       .post(
-        `http://localhost:9090/inventory/item/update/${fields.product.productId}/${fields.itemAvailability}/${fields.itemCost}`
+        ITEM_UPDATE + `${fields.product.productId}/${fields.itemAvailability}/${fields.itemCost}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -36,10 +39,10 @@ const UpdateItem = () => {
             pathname: "/item/showAll",
           });
         }, 3000);
-        setErrorMessage("L'item est mis à jour. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_UPDATE_ITEM);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

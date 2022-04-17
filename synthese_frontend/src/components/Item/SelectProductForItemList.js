@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ProductTemplate from "../Product/ProductTemplate";
 import axios from "axios";
 import { useHistory } from "react-router";
+import { PRODUCT_ALL } from "../../Utils/API";
 
 function SelectProductForItemList() {
   let history = useHistory();
@@ -10,7 +11,7 @@ function SelectProductForItemList() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:9090/inventory/product/getAll`)
+      .get(PRODUCT_ALL)
       .then((response) => {
         setProducts(response.data);
       })

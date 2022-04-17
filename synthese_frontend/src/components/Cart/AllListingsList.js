@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import ListingTemplate from "./ListingTemplate";
 import auth from "../../services/Auth";
+import { CART_GET } from "../../Utils/API";
 
 function AllListingsList() {
   let history = useHistory();
@@ -12,7 +13,7 @@ function AllListingsList() {
     let user = auth.user;
 
     axios
-      .get(`http://localhost:9090/inventory/listing/getList/${user.userId}`)
+      .get(CART_GET + `${user.userId}`)
       .then((response) => {
         setListings(response.data);
       })

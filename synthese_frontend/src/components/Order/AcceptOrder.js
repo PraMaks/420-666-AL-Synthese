@@ -4,6 +4,9 @@ import { Container, Form } from "react-bootstrap";
 import CheckoutListing from "../Checkout/CheckoutListing";
 import axios from "axios";
 import "../../styles/Form.css";
+import { ORDER_ACCEPT } from "../../Utils/API";
+import { ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_ORDER_ACCEPTED } from "../../Utils/ACCEPT_UTILS";
 
 const AcceptOrder = () => {
   let history = useHistory();
@@ -19,7 +22,7 @@ const AcceptOrder = () => {
     e.preventDefault();
     axios
       .post(
-        `http://localhost:9090/inventory/order/acceptOrder/${order.orderId}`
+        ORDER_ACCEPT + `${order.orderId}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -27,10 +30,10 @@ const AcceptOrder = () => {
             pathname: "/order/showAllUnaccepted",
           });
         }, 3000);
-        setErrorMessage("La commande a été acceptée. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_ORDER_ACCEPTED);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

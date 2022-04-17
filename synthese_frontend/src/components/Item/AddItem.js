@@ -4,6 +4,9 @@ import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
+import { ITEM_ADD } from "../../Utils/API";
+import { ERROR_CONNECT, ERROR_ITEM_COST, ERROR_ITEM_QTY } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_ADD_ITEM } from "../../Utils/ACCEPT_UTILS";
 
 const AddItem = () => {
   let history = useHistory();
@@ -21,17 +24,17 @@ const AddItem = () => {
     e.preventDefault();
 
     if(fields.itemAvailability <= 0){
-      setErrorMessage("Erreur! Il doit avoir au moins 1 item");
+      setErrorMessage(ERROR_ITEM_QTY);
       return;
     }
     if(fields.itemCost <= 0){
-      setErrorMessage("Erreur! L'item doit avoir une valeur supérieure à 0");
+      setErrorMessage(ERROR_ITEM_COST);
       return;
     }
 
     axios
       .post(
-        `http://localhost:9090/inventory/item/add/${product.productId}/${fields.itemAvailability}/${fields.itemCost}`
+        ITEM_ADD + `${product.productId}/${fields.itemAvailability}/${fields.itemCost}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -39,10 +42,10 @@ const AddItem = () => {
             pathname: "/item/showAll",
           });
         }, 3000);
-        setErrorMessage("L'item est rajouté. Vous allez être redirigé...")
+        setErrorMessage(ACCEPT_ADD_ITEM)
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

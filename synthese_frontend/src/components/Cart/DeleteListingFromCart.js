@@ -2,6 +2,9 @@ import auth from "../../services/Auth";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
+import { LISTING_DELETE } from "../../Utils/API";
+import { ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_DELETE_ITEM_CART } from "../../Utils/ACCEPT_UTILS";
 
 const DeleteListingFromCart = ({ listingId }) => {
   let user = auth.user;
@@ -13,7 +16,7 @@ const DeleteListingFromCart = ({ listingId }) => {
     e.preventDefault();
     axios
       .post(
-        `http://localhost:9090/inventory/listing/delete/${user.userId}/${listingId}`
+        LISTING_DELETE + `${user.userId}/${listingId}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -21,10 +24,10 @@ const DeleteListingFromCart = ({ listingId }) => {
             pathname: "/cart",
           });
         }, 3000);
-        setErrorMessage("L'item est supprimé du panier. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_DELETE_ITEM_CART);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

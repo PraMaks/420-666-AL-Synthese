@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ProductTemplate from "./ProductTemplate";
 import axios from "axios";
 import { useHistory } from "react-router";
+import { PRODUCT_ALL } from "../../Utils/API";
 
 function DeleteProductsList() {
   let history = useHistory();
@@ -9,7 +10,7 @@ function DeleteProductsList() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:9090/inventory/product/getAll`)
+      .get(PRODUCT_ALL)
       .then((response) => {
         setProducts(response.data);
       })

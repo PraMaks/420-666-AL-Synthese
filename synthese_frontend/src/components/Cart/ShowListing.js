@@ -6,6 +6,9 @@ import axios from "axios";
 import "../../styles/Form.css";
 import DeleteListingFromCart from "./DeleteListingFromCart";
 import auth from "../../services/Auth";
+import { LISTING_UPDATE } from "../../Utils/API";
+import { ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_UPDATE_ITEM_CART } from "../../Utils/ACCEPT_UTILS";
 
 const ShowListing = () => {
   let user = auth.user;
@@ -22,7 +25,7 @@ const ShowListing = () => {
 
     axios
       .post(
-        `http://localhost:9090/inventory/listing/update/${listing.listingId}/${fields.listingAmount}/${user.userId}`
+        LISTING_UPDATE + `${listing.listingId}/${fields.listingAmount}/${user.userId}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -31,11 +34,11 @@ const ShowListing = () => {
           });
         }, 3000);
         setErrorMessage(
-          "L'item est mis à jour dans le panier. Vous allez être redirigé..."
+          ACCEPT_UPDATE_ITEM_CART
         );
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import auth from "../../services/Auth";
 import OrderTemplate from "./OrderTemplate";
+import { ORDER_GET_LIST } from "../../Utils/API";
 
 function AllOrdersList() {
   let history = useHistory();
@@ -12,7 +13,7 @@ function AllOrdersList() {
     let user = auth.user;
 
     axios
-      .get(`http://localhost:9090/inventory/order/getList/${user.userId}`)
+      .get(ORDER_GET_LIST + `${user.userId}`)
       .then((response) => {
         setOrders(response.data);
       })

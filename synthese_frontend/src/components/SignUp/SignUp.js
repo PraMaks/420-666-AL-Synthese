@@ -5,6 +5,8 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import auth from "../../services/Auth";
 import "../../styles/Form.css";
+import { SIGN_UP } from "../../Utils/API";
+import { ERROR_SIGN_UP } from "../../Utils/ERRORS_UTILS";
 
 const SignUp = () => {
   let history = useHistory();
@@ -23,7 +25,7 @@ const SignUp = () => {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:9090/signUp/client`, fields)
+      .post(SIGN_UP, fields)
       .then((response) => {
         auth.login(() => {
           history.push({
@@ -33,7 +35,7 @@ const SignUp = () => {
         }, response.data);
       })
       .catch((error) => {
-        setErrorMessage("L'username ou l'adresse courriel existent déjà");
+        setErrorMessage(ERROR_SIGN_UP);
       });
   }
 

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import ItemTemplate from "./ItemTemplate";
+import { ITEM_ALL } from "../../Utils/API";
+
 
 function AllItemsList() {
   let history = useHistory();
@@ -9,7 +11,7 @@ function AllItemsList() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:9090/inventory/item/getAll`)
+      .get(ITEM_ALL)
       .then((response) => {
         setItems(response.data);
       })

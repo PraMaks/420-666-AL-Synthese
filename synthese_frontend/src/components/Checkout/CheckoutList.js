@@ -5,6 +5,9 @@ import { useHistory } from "react-router";
 import { Container, Form } from "react-bootstrap";
 import CheckoutListing from "./CheckoutListing";
 import { useFormFields } from "../../lib/hooksLib";
+import { CART_GET, ORDER_ADD } from "../../Utils/API";
+import { ERROR_CART, ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_ORDER_SAVED } from "../../Utils/ACCEPT_UTILS";
 
 function CheckoutList() {
   let history = useHistory();
@@ -15,12 +18,12 @@ function CheckoutList() {
     let user = auth.user;
 
     axios
-      .get(`http://localhost:9090/inventory/listing/getList/${user.userId}`)
+      .get(CART_GET + `${user.userId}`)
       .then((response) => {
         setCheckoutListings(response.data);
       })
       .catch((err) => {
-        setErrorMessage("Erreur de recuperation du panier!");
+        setErrorMessage(ERROR_CART);
       });
   }, []);
 
@@ -44,7 +47,7 @@ function CheckoutList() {
     
     axios
       .post(
-        `http://localhost:9090/inventory/order/add/${auth.user.userId}`, fields
+        ORDER_ADD + `${auth.user.userId}`, fields
       )
       .then((response) => {
         setTimeout(() => {
@@ -52,10 +55,10 @@ function CheckoutList() {
             pathname: "/home",
           });
         }, 3000);
-        setErrorMessage("Votre commande a été enregistré. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_ORDER_SAVED);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

@@ -4,6 +4,9 @@ import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
+import { PRODUCT_ADD } from "../../Utils/API";
+import { ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_ADD_PRODUCT } from "../../Utils/ACCEPT_UTILS";
 
 const AddProduct = () => {
   let history = useHistory();
@@ -20,7 +23,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:9090/inventory/product/add`, fields)
+      .post(PRODUCT_ADD, fields)
       .then((response) => {
         setTimeout(() => {
           history.push({
@@ -28,10 +31,10 @@ const AddProduct = () => {
             state: response.data,
           });
         }, 3000);
-        setErrorMessage("Le produit est ajouté. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_ADD_PRODUCT);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

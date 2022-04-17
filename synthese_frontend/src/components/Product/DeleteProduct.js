@@ -4,6 +4,9 @@ import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
+import { PRODUCT_DELETE } from "../../Utils/API";
+import { ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_DELETE_PRODUCT } from "../../Utils/ACCEPT_UTILS";
 
 const DeleteProduct = () => {
   let history = useHistory();
@@ -19,7 +22,7 @@ const DeleteProduct = () => {
 
     axios
       .post(
-        `http://localhost:9090/inventory/product/delete/${product.productId}`
+        PRODUCT_DELETE +`${product.productId}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -27,10 +30,10 @@ const DeleteProduct = () => {
             pathname: "/product/showAll",
           });
         }, 3000);
-        setErrorMessage("Le produit est supprimé. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_DELETE_PRODUCT);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

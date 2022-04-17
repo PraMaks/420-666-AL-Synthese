@@ -4,6 +4,9 @@ import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
+import { ITEM_DELETE } from "../../Utils/API";
+import { ERROR_CONNECT } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_DELETE_ITEM } from "../../Utils/ACCEPT_UTILS";
 
 const DeleteItem = () => {
   let history = useHistory();
@@ -18,17 +21,17 @@ const DeleteItem = () => {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:9090/inventory/item/delete/${item.itemId}`)
+      .post(ITEM_DELETE + `${item.itemId}`)
       .then((response) => {
         setTimeout(() => {
           history.push({
             pathname: "/item/showAll",
           });
         }, 3000);
-        setErrorMessage("L'item est supprimé. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_DELETE_ITEM);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 

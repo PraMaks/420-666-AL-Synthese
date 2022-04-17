@@ -5,6 +5,9 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Form.css";
 import auth from "../../services/Auth";
+import { LISTING_ADD } from "../../Utils/API";
+import { ERROR_CONNECT, ERROR_ITEM_QTY } from "../../Utils/ERRORS_UTILS";
+import { ACCEPT_CART_ADD_ITEM } from "../../Utils/ACCEPT_UTILS";
 
 const AddListingToOrder = () => {
   let user = auth.user;
@@ -25,13 +28,13 @@ const AddListingToOrder = () => {
     e.preventDefault();
 
     if (addToCartQty.qty <= 0) {
-      setErrorMessage("Erreur! Il doit avoir au moins 1 item");
+      setErrorMessage(ERROR_ITEM_QTY);
       return;
     }
 
     axios
       .post(
-        `http://localhost:9090/inventory/listing/add/${fields.itemId}/${addToCartQty.qty}/${user.userId}`
+        LISTING_ADD + `${fields.itemId}/${addToCartQty.qty}/${user.userId}`
       )
       .then((response) => {
         setTimeout(() => {
@@ -39,10 +42,10 @@ const AddListingToOrder = () => {
             pathname: "/shop",
           });
         }, 3000);
-        setErrorMessage("L'item est rajouté au panier. Vous allez être redirigé...");
+        setErrorMessage(ACCEPT_CART_ADD_ITEM);
       })
       .catch((error) => {
-        setErrorMessage("Erreur! Veuillez réessayez!");
+        setErrorMessage(ERROR_CONNECT);
       });
   }
 
