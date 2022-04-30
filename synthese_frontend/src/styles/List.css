@@ -96,7 +96,7 @@
   animation: shine 3s linear infinite;
 }
 
-.list_node_internship {
+.list_node_item {
   background: #babdcc;
   box-shadow: 0px 2px 20px 2px #d1d1d1;
   padding: 15px 30px;
@@ -110,7 +110,7 @@
   transition: 0.5s;
 }
 
-.list_node_internship:hover {
+.list_node_item:hover {
   transition-duration: 3s;
   box-shadow: 0px 2px 20px 2px #babdcc;
   transition: 0.5s;
@@ -149,7 +149,7 @@
   list-style-type: none;
 }
 
-.list_node_text_internship {
+.list_node_text_item {
   font-size: 2rem;
   list-style-type: none;
 }
@@ -166,7 +166,7 @@
 
 
 @media only screen and (width < 630px) {
- .list_node_text_internship {
+ .list_node_text_item {
   font-size: 1.5rem;
  }
 }

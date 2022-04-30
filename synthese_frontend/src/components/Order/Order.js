@@ -3,8 +3,8 @@ import { Row, Col } from "react-bootstrap";
 const Order = ({ order, onClick }) => {
 
   return (
-    <Row className="list_node_internship" onClick={() => onClick(order)}>
-      <Col xs={9} className="list_node_text_internship">
+    <Row className="list_node_item" onClick={() => onClick(order)}>
+      <Col xs={9} className="list_node_text_item">
         <div>
           <li>
             {" "}

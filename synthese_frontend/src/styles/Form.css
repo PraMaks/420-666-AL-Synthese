@@ -33,15 +33,6 @@
   margin: 5% auto;
 }
 
-.cont_central_internship_offer {
-  padding: 2%;
-  background-image: linear-gradient(-226deg, #ffffff 8%, #eef3f5 100%);
-  border-radius: 8px;
-  transition: all 0.5s;
-  width: 50%;
-  margin: 3% auto;
-}
-
 .cont_form {
   min-width: 100%;
 }
@@ -153,11 +144,6 @@
   opacity: 1;
   height: 5px;
   display: block;
-}
-
-.input_form_internship_offer {
-  margin: 3% 5%;
-  padding: 3% 2%;
 }
 
 .input_form:focus {
@@ -387,10 +373,6 @@
     width: 98%;
   }
 
-  .cont_central_internship_offer {
-    width: 95%;
-  }
-
   .input_form {
     padding: 15px;
   }
@@ -402,10 +384,6 @@
 @media only screen and (min-width: 767px) {
   .cont_central_auth {
     width: 70%;
-  }
-
-  .cont_central_internship_offer {
-    width: 90%;
   }
 
   .input_form {
@@ -421,11 +399,7 @@
   .cont_central_auth {
     width: 50%;
   }
-
-  .cont_central_internship_offer {
-    width: 55%;
-  }
-
+  
   .input_form {
     padding: 15px;
   }
