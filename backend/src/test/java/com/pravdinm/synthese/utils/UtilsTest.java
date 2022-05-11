@@ -1,6 +1,5 @@
 package com.pravdinm.synthese.utils;
 
-import com.pravdinm.synthese.model.delivery.Product;
 import com.pravdinm.synthese.model.user.Client;
 import com.pravdinm.synthese.model.user.Manager;
 

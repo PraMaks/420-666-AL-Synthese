@@ -24,12 +24,13 @@ public class AuthService {
 
     public Optional<Client> signUp(Client client) {
         Optional<Client> optionalClient = Optional.empty();
+
         try {
             boolean verifyUsername = clientRepository.findByUsername(client.getUsername()).isEmpty();
             boolean verifyEmail = clientRepository.findByEmail(client.getEmail()).isEmpty();
-
             if(verifyUsername && verifyEmail)
                 optionalClient = Optional.of(clientRepository.save(client));
+
         } catch (DuplicateKeyException exception) {
             exception.printStackTrace();
         }

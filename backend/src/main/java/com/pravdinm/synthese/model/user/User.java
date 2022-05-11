@@ -15,15 +15,20 @@ public class User implements Serializable {
 
     @Id
     protected String userId;
+
     @Field
     @Indexed(unique = true)
     protected String username;
+
     @Field
     protected String password;
+
     @Field
     protected String firstName;
+
     @Field
     protected String lastName;
+
     @Field
     @Indexed(unique = true)
     protected String email;

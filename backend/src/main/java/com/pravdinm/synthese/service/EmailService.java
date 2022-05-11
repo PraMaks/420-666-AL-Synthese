@@ -29,6 +29,7 @@ public class EmailService {
         this.orderRepository = orderRepository;
     }
 
+    //Pour les raisons de tests le cron est mis à se lancer à chaque minute
     @Scheduled(cron = "0 * * * * *")
     private void sendMails(){
         createEmailForOrderArrival();
